@@ -1,6 +1,6 @@
 ﻿namespace Pets.Controllers.Food.GetList
 {
-    using Models;
+    using Domain.Enums;
 
     public class FoodGetListRequest
     {

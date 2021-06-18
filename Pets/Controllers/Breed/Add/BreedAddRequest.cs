@@ -1,7 +1,7 @@
 ﻿namespace Pets.Controllers.Breed.Add
 {
     using System.ComponentModel.DataAnnotations;
-    using Models;
+    using Domain.Enums;
 
     public class BreedAddRequest
     {

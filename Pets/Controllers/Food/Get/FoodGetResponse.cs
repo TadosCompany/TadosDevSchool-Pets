@@ -1,6 +1,6 @@
 ﻿namespace Pets.Controllers.Food.Get
 {
-    using Models;
+    using Domain.Entities;
 
     public class FoodGetResponse
     {

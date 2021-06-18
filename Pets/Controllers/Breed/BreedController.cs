@@ -1,6 +1,5 @@
 ﻿namespace Pets.Controllers.Breed
 {
-    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Data.Common;
@@ -11,9 +10,10 @@
     using GetList;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Models;
     using Providers;
-
+    using Domain.Enums;
+    using Domain.Entities;
+    using Domain.Services;
 
     [ApiController]
     [Route("api/breed")]
@@ -124,31 +124,17 @@
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Add(BreedAddRequest request)
         {
-            Breed breed = new Breed()
-            {
-                Name = request.Name.Trim(),
-                AnimalType = request.AnimalType
-            };
-            
             await using SQLiteConnection connection = new SQLiteConnection(DatabaseProvider.ConnectionString);
             await connection.OpenAsync();
 
             await using DbTransaction transaction = await connection.BeginTransactionAsync(IsolationLevel.ReadCommitted);
 
-            await using SQLiteCommand checkCommand = connection.CreateCommand();
-            checkCommand.CommandText = @"
-                SELECT
-                    COUNT(1)
-                FROM Breed b
-                WHERE b.Name = @Name AND b.AnimalType = @AnimalType";
-            
-            checkCommand.Parameters.AddWithValue("Name", breed.Name);
-            checkCommand.Parameters.AddWithValue("AnimalType", (int)breed.AnimalType);
+            var breedService = new BreedService(connection);
 
-            long existingCount = (long)await checkCommand.ExecuteScalarAsync();
-
-            if (existingCount > 0)
-                throw new Exception($"Breed with name {breed.Name} for {breed.AnimalType} already exists");
+            Breed breed = await breedService.CreateBreedAsync(
+                animalType: request.AnimalType, 
+                name: request.Name.Trim()
+            );
 
             await using SQLiteCommand insertCommand = connection.CreateCommand();
             insertCommand.CommandText = @"
@@ -178,14 +164,14 @@
             return Json(response);
         }
 
+
+
         private static Breed CreateFromReader(DbDataReader reader)
         {
-            Breed breed = new Breed()
-            {
-                Id = reader.GetInt64("Id"),
-                Name = reader.GetString("Name"),
-                AnimalType = (AnimalType)reader.GetInt64("AnimalType"),
-            };
+            var breed = new Breed(
+                id: reader.GetInt64("Id"),
+                animalType: (AnimalType)reader.GetInt64("AnimalType"),
+                name: reader.GetString("Name"));
 
             return breed;
         }
