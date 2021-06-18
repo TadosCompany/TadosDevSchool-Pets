@@ -1,6 +1,6 @@
 ﻿namespace Pets.Controllers.Breed.Get
 {
-    using Models;
+    using Domain.Entities;
 
     public class BreedGetResponse
     {

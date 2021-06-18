@@ -1,4 +1,4 @@
-﻿namespace Pets.Models
+﻿namespace Pets.Domain.Enums
 {
     public enum AnimalType
     {

@@ -1,6 +1,5 @@
 ﻿namespace Pets.Controllers.Food
 {
-    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Data.Common;
@@ -12,9 +11,10 @@
     using GetList;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Models;
     using Providers;
-
+    using Domain.Enums;
+    using Domain.Entities;
+    using Domain.Services;
 
     [ApiController]
     [Route("api/food")]
@@ -126,32 +126,17 @@
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Add(FoodAddRequest request)
         {
-            Food food = new Food()
-            {
-                Count = 0,
-                Name = request.Name.Trim(),
-                AnimalType = request.AnimalType
-            };
-            
             await using SQLiteConnection connection = new SQLiteConnection(DatabaseProvider.ConnectionString);
             await connection.OpenAsync();
 
             await using DbTransaction transaction = await connection.BeginTransactionAsync(IsolationLevel.ReadCommitted);
 
-            await using SQLiteCommand checkCommand = connection.CreateCommand();
-            checkCommand.CommandText = @"
-                SELECT
-                    COUNT(1)
-                FROM Food f
-                WHERE f.Name = @Name AND f.AnimalType = @AnimalType";
-            
-            checkCommand.Parameters.AddWithValue("Name", food.Name);
-            checkCommand.Parameters.AddWithValue("AnimalType", food.AnimalType);
+            var foodService = new FoodService(connection);
 
-            long existingCount = (long)await checkCommand.ExecuteScalarAsync();
-
-            if (existingCount > 0)
-                throw new Exception($"Food with name {food.Name} for {food.AnimalType} already exists");
+            Food food = await foodService.CreateFoodAsync(
+                animalType: request.AnimalType,
+                name: request.Name.Trim()
+            );
 
             await using SQLiteCommand insertCommand = connection.CreateCommand();
             insertCommand.CommandText = @"
@@ -195,15 +180,42 @@
 
             await using DbTransaction transaction = await connection.BeginTransactionAsync(IsolationLevel.ReadCommitted);
 
+            Food food = null;
+
+            await using SQLiteCommand getCommand = connection.CreateCommand();
+            getCommand.CommandText = @"
+                SELECT
+                    f.Id,
+                    f.Name,
+                    f.AnimalType,
+                    f.Count
+                FROM Food f
+                WHERE f.Id = @Id";
+
+            getCommand.Parameters.AddWithValue("Id", request.Id);
+
+            await using DbDataReader reader = await getCommand.ExecuteReaderAsync();
+
+            if (await reader.ReadAsync())
+            {
+                food = CreateFromReader(reader);
+            }
+
+            food.Increase(request.Count);
+
             await using SQLiteCommand command = connection.CreateCommand();
             command.CommandText = @"
                 UPDATE Food
                 SET
+                    AnimalType = @AnimalType,
+                    Name = @Name,
                     Count = Count + @Count
                 WHERE
                     Food.Id = @Id";
 
             command.Parameters.AddWithValue("Id", request.Id);
+            command.Parameters.AddWithValue("AnimalType", food.AnimalType);
+            command.Parameters.AddWithValue("Name", food.Name);
             command.Parameters.AddWithValue("Count", request.Count);
 
             await command.ExecuteNonQueryAsync();
@@ -215,15 +227,15 @@
             return Json(response);
         }
 
+
+
         private static Food CreateFromReader(DbDataReader reader)
         {
-            Food food = new Food()
-            {
-                Id = reader.GetInt64("Id"),
-                Name = reader.GetString("Name"),
-                AnimalType = (AnimalType)reader.GetInt64("AnimalType"),
-                Count = reader.GetInt32("Count"),
-            };
+            var food = new Food(
+                id: reader.GetInt64("Id"),
+                animalType: (AnimalType)reader.GetInt64("AnimalType"),
+                name: reader.GetString("Name"),
+                count: reader.GetInt32("Count"));
 
             return food;
         }

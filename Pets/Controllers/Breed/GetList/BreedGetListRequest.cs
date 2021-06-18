@@ -1,6 +1,6 @@
 ﻿namespace Pets.Controllers.Breed.GetList
 {
-    using Models;
+    using Domain.Enums;
 
     public class BreedGetListRequest
     {
