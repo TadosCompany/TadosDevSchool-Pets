@@ -22,7 +22,7 @@
                 throw new ArgumentNullException(nameof(breed));
 
             if (breed.AnimalType != type)
-                throw new ArgumentException($"Breed animal type expected to be ${type}", nameof(breed));
+                throw new ArgumentException($"Breed animal type expected to be {type}", nameof(breed));
 
             Type = type;
             Name = name;
@@ -66,7 +66,7 @@
                 throw new ArgumentOutOfRangeException(nameof(count));
 
             if (food.AnimalType != Type)
-                throw new ArgumentException($"Food animal type expected to be ${Type}", nameof(food));
+                throw new ArgumentException($"Food animal type expected to be {Type}", nameof(food));
 
             _feedings.Add(new Feeding(DateTime.UtcNow, food, count));
         }
