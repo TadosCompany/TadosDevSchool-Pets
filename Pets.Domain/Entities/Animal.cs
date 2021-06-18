@@ -22,7 +22,7 @@
                 throw new ArgumentNullException(nameof(breed));
 
             if (breed.AnimalType != type)
-                throw new ArgumentException($"Breed animal type expected to be ${type}", nameof(breed));
+                throw new ArgumentException($"Breed animal type expected to be {type}", nameof(breed));
 
             Type = type;
             Name = name;
