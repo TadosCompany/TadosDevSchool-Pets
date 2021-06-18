@@ -66,7 +66,7 @@
                 throw new ArgumentOutOfRangeException(nameof(count));
 
             if (food.AnimalType != Type)
-                throw new ArgumentException($"Food animal type expected to be ${Type}", nameof(food));
+                throw new ArgumentException($"Food animal type expected to be {Type}", nameof(food));
 
             _feedings.Add(new Feeding(DateTime.UtcNow, food, count));
         }

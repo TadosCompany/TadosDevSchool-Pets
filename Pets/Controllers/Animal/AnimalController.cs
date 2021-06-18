@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Pets.Controllers.Animal
+﻿namespace Pets.Controllers.Animal
 {
     using System;
     using System.Collections.Generic;
@@ -8,6 +6,7 @@ namespace Pets.Controllers.Animal
     using System.Data.Common;
     using System.Data.SQLite;
     using System.Globalization;
+    using System.Linq;
     using System.Threading.Tasks;
     using Add;
     using Feed;

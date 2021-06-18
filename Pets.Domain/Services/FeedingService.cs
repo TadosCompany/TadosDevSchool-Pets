@@ -1,10 +1,11 @@
 ﻿namespace Pets.Domain.Services
 {
     using System;
+    using global::Domain.Abstractions;
     using Entities;
     using Exceptions;
 
-    public class FeedingService
+    public class FeedingService : IDomainService
     {
         public void Feed(Animal animal, Food food, int count)
         {
