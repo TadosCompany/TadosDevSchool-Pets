@@ -5,8 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Commands.Abstractions\Commands.Abstractions.csproj" />
     <ProjectReference Include="..\Domain.Abstractions\Domain.Abstractions.csproj" />
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.114.2" />
+    <ProjectReference Include="..\Queries.Abstractions\Queries.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,6 +6,11 @@
 
     public class Breed : IEntity
     {
+        [Obsolete("Only for reflection", true)]
+        public Breed()
+        {
+        }
+        
         protected internal Breed(AnimalType animalType, string name)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -25,8 +30,8 @@
 
         public long Id { get; set; }
 
-        public AnimalType AnimalType { get; init; }
+        public AnimalType AnimalType { get; protected set; }
 
-        public string Name { get; init; }
+        public string Name { get; protected set; }
     }
 }

@@ -2,6 +2,5 @@
 {
     public interface IValueObject
     {
-        long Id { get; }
     }
 }

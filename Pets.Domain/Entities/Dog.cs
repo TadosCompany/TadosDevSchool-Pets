@@ -5,14 +5,23 @@
     using Enums;
     using ValueObjects;
 
+
     public class Dog : Animal
     {
+        [Obsolete("Only for reflection", true)]
+        public Dog()
+        {
+        }
+
         protected internal Dog(string name, Breed breed, decimal tailLength)
             : base(AnimalType.Dog, name, breed)
         {
-            if (tailLength < 0) 
+            if (tailLength < 0)
                 throw new ArgumentOutOfRangeException(nameof(tailLength));
 
+            if (breed.AnimalType != AnimalType.Dog)
+                throw new ArgumentException("Invalid breed animal type", nameof(breed));
+            
             TailLength = tailLength;
         }
 
@@ -21,10 +30,9 @@
         {
             if (tailLength < 0)
                 throw new ArgumentOutOfRangeException(nameof(tailLength));
-
+        
             TailLength = tailLength;
         }
-
 
 
         public decimal TailLength { get; init; }

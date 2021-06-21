@@ -11,7 +11,10 @@
     {
         private readonly ISet<Feeding> _feedings = new HashSet<Feeding>();
 
-
+        [Obsolete("Only for reflection", true)]
+        protected Animal()
+        {
+        }
 
         protected Animal(AnimalType type, string name, Breed breed)
         {
@@ -34,9 +37,9 @@
         {
             if (feedings == null) 
                 throw new ArgumentNullException(nameof(feedings));
-
+        
             Id = id;
-
+        
             foreach (var feeding in feedings)
             {
                 _feedings.Add(feeding);
@@ -57,7 +60,7 @@
 
 
 
-        protected internal void Feed(Food food, int count)
+        protected internal Feeding Feed(Food food, int count)
         {
             if (food == null) 
                 throw new ArgumentNullException(nameof(food));
@@ -68,7 +71,11 @@
             if (food.AnimalType != Type)
                 throw new ArgumentException($"Food animal type expected to be {Type}", nameof(food));
 
-            _feedings.Add(new Feeding(DateTime.UtcNow, food, count));
+            Feeding feeding = new Feeding(DateTime.UtcNow, food, count);
+            
+            _feedings.Add(feeding);
+
+            return feeding;
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿namespace Pets.Providers
+﻿namespace Pets.Initializers
 {
     using System.Data.SQLite;
 
-
-    public static class DatabaseProvider
+    public static class DatabaseInitializer
     {
         public static string ConnectionString { get; private set; }
 

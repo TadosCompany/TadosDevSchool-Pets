@@ -7,11 +7,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.114.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Database.Sqlite\Database.Sqlite.csproj" />
+    <ProjectReference Include="..\Database.Transactions.Scoped\Database.Transactions.Scoped.csproj" />
     <ProjectReference Include="..\Pets.Domain\Pets.Domain.csproj" />
+    <ProjectReference Include="..\Pets.Persistence\Pets.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
