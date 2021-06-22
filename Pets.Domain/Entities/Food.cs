@@ -40,7 +40,7 @@
 
         public void Increase(int count)
         {
-            if (count < 0) 
+            if (count <= 0) 
                 throw new ArgumentOutOfRangeException(nameof(count));
 
             Count += count;
@@ -48,7 +48,7 @@
 
         protected internal void Decrease(int count)
         {
-            if (count < 0 || count > Count) 
+            if (count <= 0 || count > Count) 
                 throw new ArgumentOutOfRangeException(nameof(count));
 
             Count -= count;

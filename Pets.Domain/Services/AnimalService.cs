@@ -7,7 +7,7 @@
     using Enums;
     using Exceptions;
 
-    public class AnimalService : IDomainService
+    public abstract class AnimalService : IDomainService
     {
         private readonly SQLiteConnection _connection;
 

@@ -4,7 +4,7 @@
     using global::Domain.Abstractions;
     using Entities;
 
-    public class Feeding : IValueObject
+    public class Feeding : IValueObjectWithId
     {
         protected internal Feeding(DateTime dateTimeUtc, Food food, int count)
         {
@@ -24,7 +24,7 @@
 
 
 
-        public long Id { get; }
+        public long Id { get; set; }
 
         public DateTime DateTimeUtc { get; init; }
 

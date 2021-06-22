@@ -190,7 +190,7 @@
             insertAnimalCommand.Parameters.AddWithValue("Name", animal.Name);
             insertAnimalCommand.Parameters.AddWithValue("BreedId", animal.Breed.Id);
 
-            animal.Id = (long) insertAnimalCommand.ExecuteScalar();
+            animal.Id = (long)insertAnimalCommand.ExecuteScalar();
 
             switch (request.Type)
             {
@@ -210,6 +210,7 @@
                                 @AnimalId,
                                 @Weight
                             )";
+
                         insertCatCommand.Parameters.AddWithValue("AnimalId", cat.Id);
                         insertCatCommand.Parameters.AddWithValue("Weight", cat.Weight);
 
@@ -234,6 +235,7 @@
                                 @AnimalId,
                                 @TailLength
                             )";
+
                         insertDogCommand.Parameters.AddWithValue("AnimalId", dog.Id);
                         insertDogCommand.Parameters.AddWithValue("TailLength", dog.TailLength);
 
@@ -294,25 +296,31 @@
                             @FoodId,
                             @DateTimeUtc,
                             @Count
-                        );";
+                        ); SELECT last_insert_rowid()";
 
                     insertFeedingCommand.Parameters.AddWithValue("AnimalId", animal.Id);
                     insertFeedingCommand.Parameters.AddWithValue("FoodId", feeding.Food.Id);
                     insertFeedingCommand.Parameters.AddWithValue("DateTimeUtc", feeding.DateTimeUtc.ToString(DateTimeFormat));
                     insertFeedingCommand.Parameters.AddWithValue("Count", feeding.Count);
 
-                    await insertFeedingCommand.ExecuteNonQueryAsync();
+                    feeding.Id = (long)(await insertFeedingCommand.ExecuteScalarAsync());
                 }
             }
 
             await using SQLiteCommand updateFoodCommand = connection.CreateCommand();
 
             updateFoodCommand.CommandText = @"
-                UPDATE Food 
-                SET Count = @Count
-                WHERE Id = @Id";
+                UPDATE Food
+                SET
+                    AnimalType = @AnimalType,
+                    Name = @Name,
+                    Count = @Count
+                WHERE
+                    Food.Id = @Id";
 
             updateFoodCommand.Parameters.AddWithValue("Id", food.Id);
+            updateFoodCommand.Parameters.AddWithValue("AnimalType", food.AnimalType);
+            updateFoodCommand.Parameters.AddWithValue("Name", food.Name);
             updateFoodCommand.Parameters.AddWithValue("Count", food.Count);
 
             await updateFoodCommand.ExecuteNonQueryAsync();

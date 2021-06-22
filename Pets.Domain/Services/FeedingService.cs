@@ -15,7 +15,7 @@
             if (food == null) 
                 throw new ArgumentNullException(nameof(food));
 
-            if (count < 0) 
+            if (count <= 0) 
                 throw new ArgumentOutOfRangeException(nameof(count));
 
             if (food.Count < count)
