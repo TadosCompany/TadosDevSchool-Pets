@@ -1,12 +1,19 @@
 namespace Pets
 {
+    using Database.Sqlite;
+    using Database.Transactions.Scoped;
+    using DI.Microsoft.DependencyInjection.Extensions;
+    using Domain.Services.Animals;
+    using Filters;
+    using Initializers;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.OpenApi.Models;
-    using Providers;
+    using Persistence.Commands;
+    using Persistence.Queries;
 
     public class Startup
     {
@@ -23,7 +30,12 @@ namespace Pets
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews().AddNewtonsoftJson();
+            services.AddScoped<TransactionFilter>();
+            
+            services.AddControllersWithViews(mvcOptions =>
+            {
+                mvcOptions.Filters.AddService<TransactionFilter>();
+            }).AddNewtonsoftJson();
             
             services.AddSwaggerGen(options =>
             {
@@ -39,7 +51,19 @@ namespace Pets
             });
 
             string connectionString = Configuration.GetConnectionString("Pets");
-            DatabaseProvider.Init(connectionString);
+
+            services.Configure<SqliteConnectionFactoryOptions>(options =>
+            {
+                options.ConnectionString = connectionString;
+            });
+
+            services
+                .AddDatabase<SqliteConnectionFactory, ScopedDbTransactionProvider>()
+                .AddQueriesFromAssemblyContaining<FindAnimalByIdQuery>()
+                .AddCommandsFromAssemblyContaining<CreateCatCommand>()
+                .AddDomainServicesFromAssemblyContaining<AnimalServiceBase>();
+            
+            DatabaseInitializer.Init(connectionString);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

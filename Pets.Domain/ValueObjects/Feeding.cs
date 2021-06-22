@@ -6,6 +6,11 @@
 
     public class Feeding : IValueObjectWithId
     {
+        [Obsolete("Only for reflection", true)]
+        public Feeding()
+        {
+        }
+        
         protected internal Feeding(DateTime dateTimeUtc, Food food, int count)
         {
             if (count < 0) 
