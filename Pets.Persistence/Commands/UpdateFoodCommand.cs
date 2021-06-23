@@ -5,9 +5,9 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Dapper;
-    using Database.Abstractions;
     using Domain.Commands.Contexts;
     using global::Commands.Abstractions;
+    using global::Database.Abstractions;
 
 
     public class UpdateFoodCommand : IAsyncCommand<UpdateFoodCommandContext>
