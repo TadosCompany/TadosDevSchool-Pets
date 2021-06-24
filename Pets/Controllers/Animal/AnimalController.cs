@@ -3,11 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Add;
+    using Actions.Add;
+    using Actions.Feed;
+    using Actions.Get;
+    using Actions.GetList;
+    using AutoMapper;
     using Domain.Criteria;
-    using Feed;
-    using Get;
-    using GetList;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Domain.Enums;
@@ -15,8 +16,8 @@
     using Domain.Services.Animals.Cats;
     using Domain.Services.Animals.Dogs;
     using Domain.Services.Feedings;
+    using Dto;
     using Queries.Abstractions;
-
 
     [ApiController]
     [Route("api/animal")]
@@ -26,19 +27,24 @@
         private readonly IDogService _dogService;
         private readonly IFeedingService _feedingService;
         private readonly IAsyncQueryBuilder _queryBuilder;
+        private readonly IMapper _mapper;
+
 
 
         public AnimalController(
             ICatService catService,
             IDogService dogService,
             IFeedingService feedingService,
-            IAsyncQueryBuilder queryBuilder)
+            IAsyncQueryBuilder queryBuilder,
+            IMapper mapper)
         {
             _catService = catService ?? throw new ArgumentNullException(nameof(catService));
             _dogService = dogService ?? throw new ArgumentNullException(nameof(dogService));
             _feedingService = feedingService ?? throw new ArgumentNullException(nameof(feedingService));
             _queryBuilder = queryBuilder ?? throw new ArgumentNullException(nameof(queryBuilder));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
+
 
 
         [HttpPost]
@@ -53,9 +59,9 @@
                     request.Search,
                     request.AnimalType));
 
-            AnimalGetListResponse response = new AnimalGetListResponse()
+            var response = new AnimalGetListResponse
             {
-                Animals = animals,
+                Animals = _mapper.Map<IEnumerable<AnimalListItemDto>>(animals)
             };
 
             return Json(response);
@@ -71,9 +77,9 @@
                 .For<Animal>()
                 .WithAsync(new FindById(request.Id));
 
-            AnimalGetResponse response = new AnimalGetResponse()
+            var response = new AnimalGetResponse
             {
-                Animal = animal,
+                Animal = _mapper.Map<AnimalDto>(animal)
             };
 
             return Json(response);
@@ -112,7 +118,7 @@
                     throw new ArgumentOutOfRangeException(nameof(request.Type), request.Type, "Unknown animal type");
             }
 
-            AnimalAddResponse response = new AnimalAddResponse()
+            var response = new AnimalAddResponse
             {
                 Id = animal.Id,
             };
@@ -136,7 +142,7 @@
 
             await _feedingService.FeedAsync(animal, food, request.Count);
 
-            AnimalFeedResponse response = new AnimalFeedResponse();
+            var response = new AnimalFeedResponse();
 
             return Json(response);
         }

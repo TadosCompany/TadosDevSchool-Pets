@@ -7,8 +7,8 @@ namespace Pets
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.OpenApi.Models;
     using Persistence;
+    using Swagger;
 
     public class Startup
     {
@@ -26,18 +26,7 @@ namespace Pets
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
             services
-                .AddSwaggerGen(options =>
-                {
-                    options.SwaggerDoc(
-                        name: "v1",
-                        info: new OpenApiInfo
-                        {
-                            Title = "Pets API",
-                            Version = "v1"
-                        });
-
-                    options.CustomSchemaIds(x => x.FullName);
-                });
+                .AddSwagger();
 
 
             ConfigureServices(services);
@@ -57,40 +46,37 @@ namespace Pets
 
 
 
-        public void ConfigureContainer(ContainerBuilder builder)
+        public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
-            builder.RegisterConfiguredModulesFromCurrentAssembly(Configuration);
+            containerBuilder
+                .RegisterConfiguredModulesFromCurrentAssembly(Configuration);
         }
 
 
 
-        public void ConfigureDevelopment(IApplicationBuilder app, Database database)
+        public void ConfigureDevelopment(IApplicationBuilder applicationBuilder, Database database)
         {
-            app.UseDeveloperExceptionPage();
-
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Pets API");
-            });
+            applicationBuilder
+                .UseDeveloperExceptionPage()
+                .UseSwagger();
 
 
-            Configure(app, database);
+            Configure(applicationBuilder, database);
         }
 
-        public void Configure(IApplicationBuilder app, Database database)
+        public void Configure(IApplicationBuilder applicationBuilder, Database database)
         {
             database.InitAsync().Wait();
 
-            app.UseStaticFiles();
-            
-            app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-                endpoints.MapFallbackToController("Index", "Home");
-            });
+            applicationBuilder
+                .UseStaticFiles()
+                .UseRouting()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                    endpoints.MapFallbackToController("Index", "Home");
+                });
         }
     }
 }

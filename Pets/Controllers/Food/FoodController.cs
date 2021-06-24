@@ -3,19 +3,20 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Add;
-    using Append;
+    using Actions.Add;
+    using Actions.Append;
+    using Actions.Get;
+    using Actions.GetList;
+    using AutoMapper;
     using Commands.Abstractions;
     using Domain.Commands.Contexts;
     using Domain.Criteria;
-    using Get;
-    using GetList;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Domain.Entities;
     using Domain.Services.Foods;
+    using Dto;
     using Queries.Abstractions;
-
 
     [ApiController]
     [Route("api/food")]
@@ -24,17 +25,22 @@
         private readonly IFoodService _foodService;
         private readonly IAsyncQueryBuilder _queryBuilder;
         private readonly IAsyncCommandBuilder _commandBuilder;
+        private readonly IMapper _mapper;
+
 
 
         public FoodController(
             IFoodService foodService,
             IAsyncQueryBuilder queryBuilder,
-            IAsyncCommandBuilder commandBuilder)
+            IAsyncCommandBuilder commandBuilder,
+            IMapper mapper)
         {
             _foodService = foodService ?? throw new ArgumentNullException(nameof(foodService));
             _queryBuilder = queryBuilder ?? throw new ArgumentNullException(nameof(queryBuilder));
             _commandBuilder = commandBuilder ?? throw new ArgumentNullException(nameof(commandBuilder));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
+
 
 
         [HttpPost]
@@ -47,9 +53,9 @@
                 .For<List<Food>>()
                 .WithAsync(new FindBySearchAndAnimalType(request.Search, request.AnimalType));
 
-            FoodGetListResponse response = new FoodGetListResponse()
+            var response = new FoodGetListResponse
             {
-                Foods = foods,
+                Foods = _mapper.Map<IEnumerable<FoodDto>>(foods)
             };
 
             return Json(response);
@@ -65,9 +71,9 @@
                 .For<Food>()
                 .WithAsync(new FindById(request.Id));
 
-            FoodGetResponse response = new FoodGetResponse()
+            var response = new FoodGetResponse
             {
-                Food = food,
+                Food = _mapper.Map<FoodDto>(food),
             };
 
             return Json(response);
@@ -84,7 +90,7 @@
                 name: request.Name.Trim()
             );
 
-            FoodAddResponse response = new FoodAddResponse()
+            var response = new FoodAddResponse
             {
                 Id = food.Id,
             };
@@ -106,7 +112,7 @@
 
             await _commandBuilder.ExecuteAsync(new UpdateFoodCommandContext(food));
 
-            FoodAppendResponse response = new FoodAppendResponse();
+            var response = new FoodAppendResponse();
 
             return Json(response);
         }

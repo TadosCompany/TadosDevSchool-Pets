@@ -16,6 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Api.Requests.Abstractions\Api.Requests.Abstractions.csproj" />
+    <ProjectReference Include="..\AspNetCore.ApiControllers.Abstractions\AspNetCore.ApiControllers.Abstractions.csproj" />
+    <ProjectReference Include="..\AspNetCore.ApiControllers.Extensions\AspNetCore.ApiControllers.Extensions.csproj" />
     <ProjectReference Include="..\Database.Sqlite\Database.Sqlite.csproj" />
     <ProjectReference Include="..\Database.Transactions.Scoped\Database.Transactions.Scoped.csproj" />
     <ProjectReference Include="..\Pets.Domain\Pets.Domain.csproj" />

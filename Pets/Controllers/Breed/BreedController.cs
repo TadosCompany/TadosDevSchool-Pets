@@ -1,53 +1,52 @@
 ﻿namespace Pets.Controllers.Breed
 {
     using System;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Add;
+    using Actions.Add;
+    using Actions.Get;
+    using Actions.GetList;
+    using Api.Requests.Abstractions;
+    using AspnetCore.ApiControllers.Abstractions;
+    using AspnetCore.ApiControllers.Extensions;
+    using AutoMapper;
     using Domain.Criteria;
-    using Get;
-    using GetList;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Domain.Entities;
     using Domain.Services.Breeds;
+    using Dto;
     using Queries.Abstractions;
-
 
     [ApiController]
     [Route("api/breed")]
-    public class BreedController : Controller
+    public class BreedController : ApiControllerBase
     {
         private readonly IBreedService _breedService;
         private readonly IAsyncQueryBuilder _queryBuilder;
+        private readonly IMapper _mapper;
+
 
 
         public BreedController(
+            IAsyncRequestBuilder asyncRequestBuilder,
             IBreedService breedService,
-            IAsyncQueryBuilder queryBuilder)
+            IAsyncQueryBuilder queryBuilder,
+            IMapper mapper)
+            : base(asyncRequestBuilder)
         {
             _breedService = breedService ?? throw new ArgumentNullException(nameof(breedService));
             _queryBuilder = queryBuilder ?? throw new ArgumentNullException(nameof(queryBuilder));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
+
 
 
         [HttpPost]
         [Route("getList")]
         [ProducesResponseType(typeof(BreedGetListResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetList(BreedGetListRequest request)
-        {
-            List<Breed> breeds = await _queryBuilder
-                .For<List<Breed>>()
-                .WithAsync(new FindBySearchAndAnimalType(request.Search, request.AnimalType));
-
-            BreedGetListResponse response = new BreedGetListResponse()
-            {
-                Breeds = breeds,
-            };
-
-            return Json(response);
-        }
+        public Task<IActionResult> GetList(BreedGetListRequest request)
+            => this.RequestAsync<BreedController, BreedGetListRequest, BreedGetListResponse>(request);
 
         [HttpPost]
         [Route("get")]
@@ -59,9 +58,9 @@
                 .For<Breed>()
                 .WithAsync(new FindById(request.Id));
 
-            BreedGetResponse response = new BreedGetResponse()
+            var response = new BreedGetResponse
             {
-                Breed = breed,
+                Breed = _mapper.Map<BreedDto>(breed)
             };
 
             return Json(response);
@@ -78,7 +77,7 @@
                 name: request.Name.Trim()
             );
 
-            BreedAddResponse response = new BreedAddResponse()
+            var response = new BreedAddResponse
             {
                 Id = breed.Id,
             };
