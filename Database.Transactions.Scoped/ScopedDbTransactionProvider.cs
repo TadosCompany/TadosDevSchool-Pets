@@ -86,7 +86,7 @@
             if (!IsInitialized)
                 return;
 
-            _transaction?.Commit();
+            _transaction.Commit();
         }
 
         protected void RollbackTransaction()
@@ -94,7 +94,7 @@
             if (!IsInitialized)
                 return;
 
-            _transaction?.Rollback();
+            _transaction.Rollback();
         }
     }
 }
