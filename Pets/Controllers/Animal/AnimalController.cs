@@ -15,8 +15,12 @@
     [Route("api/animal")]
     public class AnimalController : ApiControllerBase
     {
-        public AnimalController(IAsyncRequestBuilder asyncRequestBuilder, IAsyncHierarchicRequestBuilder asyncHierarchicRequestBuilder)
-            : base(asyncRequestBuilder, asyncHierarchicRequestBuilder)
+        public AnimalController(
+            IAsyncRequestBuilder asyncRequestBuilder, 
+            IAsyncHierarchicRequestBuilder asyncHierarchicRequestBuilder)
+            : base(
+                asyncRequestBuilder, 
+                asyncHierarchicRequestBuilder)
         {
         }
 

@@ -14,8 +14,12 @@
     [Route("api/breed")]
     public class BreedController : ApiControllerBase
     {
-        public BreedController(IAsyncRequestBuilder asyncRequestBuilder, IAsyncHierarchicRequestBuilder asyncHierarchicRequestBuilder)
-            : base(asyncRequestBuilder, asyncHierarchicRequestBuilder)
+        public BreedController(
+            IAsyncRequestBuilder asyncRequestBuilder, 
+            IAsyncHierarchicRequestBuilder asyncHierarchicRequestBuilder)
+            : base(
+                asyncRequestBuilder, 
+                asyncHierarchicRequestBuilder)
         {
         }
 
@@ -26,20 +30,26 @@
         [ProducesResponseType(typeof(BreedGetListResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public Task<IActionResult> GetList(BreedGetListRequest request)
-            => this.RequestAsync<BreedController, BreedGetListRequest, BreedGetListResponse>(request);
+            => this.RequestAsync()
+                .For<BreedGetListResponse>()
+                .With(request);
 
         [HttpPost]
         [Route("get")]
         [ProducesResponseType(typeof(BreedGetResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public Task<IActionResult> Get(BreedGetRequest request)
-            => this.RequestAsync<BreedController, BreedGetRequest, BreedGetResponse>(request);
+            => this.RequestAsync()
+                .For<BreedGetResponse>()
+                .With(request);
 
         [HttpPost]
         [Route("add")]
         [ProducesResponseType(typeof(BreedAddResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public Task<IActionResult> Add(BreedAddRequest request)
-            => this.RequestAsync<BreedController, BreedAddRequest, BreedAddResponse>(request);
+            => this.RequestAsync()
+                .For<BreedAddResponse>()
+                .With(request);
     }
 }
