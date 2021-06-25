@@ -2,8 +2,8 @@
 {
     using Api.Requests.Abstractions;
 
-    public class BreedGetRequest : IRequest<BreedGetResponse>
+    public record BreedGetRequest : IRequest<BreedGetResponse>
     {
-        public long Id { get; set; }
+        public long Id { get; init; }
     }
 }

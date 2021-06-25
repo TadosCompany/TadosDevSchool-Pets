@@ -1,4 +1,4 @@
-﻿namespace Pets.Controllers.Breed.Actions.GetList
+﻿namespace Pets.Controllers.Food.Actions.GetList
 {
     using System;
     using System.Collections.Generic;
@@ -10,14 +10,14 @@
     using Dto;
     using Queries.Abstractions;
 
-    public class BreedGetListRequestHandler : IAsyncRequestHandler<BreedGetListRequest, BreedGetListResponse>
+    public class FoodGetListRequestHandler : IAsyncRequestHandler<FoodGetListRequest, FoodGetListResponse>
     {
         private readonly IAsyncQueryBuilder _asyncQueryBuilder;
         private readonly IMapper _mapper;
 
 
 
-        public BreedGetListRequestHandler(IAsyncQueryBuilder asyncQueryBuilder, IMapper mapper)
+        public FoodGetListRequestHandler(IAsyncQueryBuilder asyncQueryBuilder, IMapper mapper)
         {
             _asyncQueryBuilder = asyncQueryBuilder ?? throw new ArgumentNullException(nameof(asyncQueryBuilder));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -25,15 +25,15 @@
 
 
 
-        public async Task<BreedGetListResponse> ExecuteAsync(BreedGetListRequest request)
+        public async Task<FoodGetListResponse> ExecuteAsync(FoodGetListRequest request)
         {
-            List<Breed> breeds = await _asyncQueryBuilder
-                .For<List<Breed>>()
+            List<Food> foods = await _asyncQueryBuilder
+                .For<List<Food>>()
                 .WithAsync(new FindBySearchAndAnimalType(request.Search, request.AnimalType));
 
-            return new BreedGetListResponse
+            return new FoodGetListResponse
             {
-                Breeds = _mapper.Map<IEnumerable<BreedDto>>(breeds)
+                Foods = _mapper.Map<IEnumerable<FoodDto>>(foods)
             };
         }
     }

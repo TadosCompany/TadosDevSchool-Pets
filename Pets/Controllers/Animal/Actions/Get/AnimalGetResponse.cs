@@ -1,9 +1,10 @@
 ﻿namespace Pets.Controllers.Animal.Actions.Get
 {
+    using Api.Requests.Abstractions;
     using Dto;
 
-    public class AnimalGetResponse
+    public record AnimalGetResponse : IResponse
     {
-        public AnimalDto Animal { get; set; }
+        public AnimalDto Animal { get; init; }
     }
 }

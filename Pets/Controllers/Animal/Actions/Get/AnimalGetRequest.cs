@@ -1,7 +1,9 @@
 ﻿namespace Pets.Controllers.Animal.Actions.Get
 {
-    public class AnimalGetRequest
+    using Api.Requests.Abstractions;
+
+    public record AnimalGetRequest : IRequest<AnimalGetResponse>
     {
-        public long Id { get; set; }
+        public long Id { get; init; }
     }
 }

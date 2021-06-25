@@ -3,10 +3,10 @@
     using Api.Requests.Abstractions;
     using Domain.Enums;
 
-    public class BreedGetListRequest : IRequest<BreedGetListResponse>
+    public record BreedGetListRequest : IRequest<BreedGetListResponse>
     {
-        public AnimalType? AnimalType { get; set; }
+        public AnimalType? AnimalType { get; init; }
 
-        public string Search { get; set; }
+        public string Search { get; init; }
     }
 }

@@ -1,10 +1,11 @@
 ﻿namespace Pets.Controllers.Animal.Actions.GetList
 {
     using System.Collections.Generic;
+    using Api.Requests.Abstractions;
     using Dto;
 
-    public class AnimalGetListResponse
+    public record AnimalGetListResponse : IResponse
     {
-        public IEnumerable<AnimalListItemDto> Animals { get; set; }
+        public IEnumerable<AnimalListItemDto> Animals { get; init; }
     }
 }

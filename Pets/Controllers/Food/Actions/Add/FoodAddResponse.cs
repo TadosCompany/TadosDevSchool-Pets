@@ -1,7 +1,9 @@
 ﻿namespace Pets.Controllers.Food.Actions.Add
 {
-    public class FoodAddResponse
+    using Api.Requests.Abstractions;
+
+    public record FoodAddResponse : IResponse
     {
-        public long Id { get; set; }
+        public long Id { get; init; }
     }
 }

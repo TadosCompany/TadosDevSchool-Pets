@@ -9,7 +9,7 @@
         protected override void Load(ContainerBuilder builder)
         {
             builder
-                .RegisterAssemblyTypes(typeof(ApplicationAssemblyMarker).Assembly)
+                .RegisterAssemblyTypes(typeof(DomainAssemblyMarker).Assembly)
                 .AssignableTo<IDomainService>()
                 .AsImplementedInterfaces()
                 .InstancePerDependency();

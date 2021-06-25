@@ -1,11 +1,12 @@
 ﻿namespace Pets.Controllers.Animal.Actions.GetList
 {
+    using Api.Requests.Abstractions;
     using Domain.Enums;
 
-    public class AnimalGetListRequest
+    public record AnimalGetListRequest : IRequest<AnimalGetListResponse>
     {
-        public AnimalType? AnimalType { get; set; }
+        public AnimalType? AnimalType { get; init; }
 
-        public string Search { get; set; }
+        public string Search { get; init; }
     }
 }

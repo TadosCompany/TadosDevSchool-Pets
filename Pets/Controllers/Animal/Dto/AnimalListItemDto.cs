@@ -1,7 +1,6 @@
 ﻿namespace Pets.Controllers.Animal.Dto
 {
     using System.Collections.Generic;
-    using Breed.Dto;
     using Domain.Enums;
     using Feeding.Dto;
 
@@ -13,7 +12,7 @@
 
         public string Name { get; init; }
 
-        public BreedDto Breed { get; init; }
+        public string BreedName { get; init; }
 
         public IEnumerable<FeedingDto> Feedings { get; init; }
     }

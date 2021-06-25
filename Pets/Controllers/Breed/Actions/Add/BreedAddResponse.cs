@@ -2,8 +2,8 @@
 {
     using Api.Requests.Abstractions;
 
-    public class BreedAddResponse : IResponse
+    public record BreedAddResponse : IResponse
     {
-        public long Id { get; set; }
+        public long Id { get; init; }
     }
 }

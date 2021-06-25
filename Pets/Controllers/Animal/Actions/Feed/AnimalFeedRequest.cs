@@ -1,14 +1,15 @@
 ﻿namespace Pets.Controllers.Animal.Actions.Feed
 {
     using System.ComponentModel.DataAnnotations;
+    using Api.Requests.Abstractions;
 
-    public class AnimalFeedRequest
+    public record AnimalFeedRequest : IRequest
     {
-        public long AnimalId { get; set; }
+        public long AnimalId { get; init; }
 
-        public long FoodId { get; set; }
+        public long FoodId { get; init; }
 
         [Range(1, int.MaxValue)]
-        public int Count { get; set; }
+        public int Count { get; init; }
     }
 }

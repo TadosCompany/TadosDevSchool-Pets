@@ -4,8 +4,8 @@
     using Api.Requests.Abstractions;
     using Dto;
 
-    public class BreedGetListResponse : IResponse
+    public record BreedGetListResponse : IResponse
     {
-        public IEnumerable<BreedDto> Breeds { get; set; }
+        public IEnumerable<BreedDto> Breeds { get; init; }
     }
 }

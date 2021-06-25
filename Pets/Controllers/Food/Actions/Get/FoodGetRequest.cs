@@ -1,7 +1,9 @@
 ﻿namespace Pets.Controllers.Food.Actions.Get
 {
-    public class FoodGetRequest
+    using Api.Requests.Abstractions;
+
+    public record FoodGetRequest : IRequest<FoodGetResponse>
     {
-        public long Id { get; set; }
+        public long Id { get; init; }
     }
 }
