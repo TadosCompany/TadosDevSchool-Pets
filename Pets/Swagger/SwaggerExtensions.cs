@@ -37,7 +37,6 @@
             applicationBuilder
                 .UseSwagger(options =>
                 {
-
                 })
                 .UseSwaggerUI(options =>
                 {

@@ -5,6 +5,7 @@
     using Api.Requests.Hierarchic.Abstractions;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Persistence.Transactions.Behaviors;
 
     [ApiController]
     public class ApiControllerBase
@@ -15,42 +16,50 @@
             IHasDefaultResponseSuccessActionResult,
             IHasDefaultHierarchicResponseSuccessActionResult,
             IHasDefaultFailActionResult,
-            IHasInvalidModelStateActionResult
+            IHasInvalidModelStateActionResult,
+            IShouldPerformCommit
     {
         private readonly IAsyncRequestBuilder _asyncRequestBuilder;
         private readonly IAsyncHierarchicRequestBuilder _asyncHierarchicRequestBuilder;
+        private readonly IExpectCommit _commitPerformer;
 
 
 
         public ApiControllerBase(
             IAsyncRequestBuilder asyncRequestBuilder,
-            IAsyncHierarchicRequestBuilder asyncHierarchicRequestBuilder)
+            IAsyncHierarchicRequestBuilder asyncHierarchicRequestBuilder,
+            IExpectCommit commitPerformer)
         {
             _asyncRequestBuilder = asyncRequestBuilder ?? throw new ArgumentNullException(nameof(asyncRequestBuilder));
             _asyncHierarchicRequestBuilder = asyncHierarchicRequestBuilder ?? throw new ArgumentNullException(nameof(asyncHierarchicRequestBuilder));
+            _commitPerformer = commitPerformer ?? throw new ArgumentNullException(nameof(commitPerformer));
         }
 
 
 
-        public Func<IActionResult> Success
+        public virtual Func<IActionResult> Success
             => () => new OkResult();
 
-        public Func<TResponse, IActionResult> ResponseSuccess<TResponse>()
+        public virtual Func<TResponse, IActionResult> ResponseSuccess<TResponse>()
             where TResponse : IResponse
-            => (response) => new OkObjectResult(response);
+            => (TResponse response) => new OkObjectResult(response);
 
-        public Func<THierarchicResponse, IActionResult> HierarchicResponseSuccess<THierarchicResponse>()
+        public virtual Func<THierarchicResponse, IActionResult> HierarchicResponseSuccess<THierarchicResponse>()
             where THierarchicResponse : IHierarchicResponse
-            => (response) => new OkObjectResult(response);
+            => (THierarchicResponse response) => new OkObjectResult(response);
 
-        public Func<Exception, IActionResult> Fail
-            => (exception) => new BadRequestObjectResult(exception.Message);
+        public virtual Func<Exception, IActionResult> Fail
+            => (Exception exception) => new BadRequestObjectResult(exception.Message);
 
-        public Func<ModelStateDictionary, IActionResult> InvalidModelState
-            => (modelState) => new BadRequestObjectResult(new ValidationProblemDetails(modelState).Errors);
+        public virtual Func<ModelStateDictionary, IActionResult> InvalidModelState
+            => (ModelStateDictionary modelState) => new BadRequestObjectResult(new ValidationProblemDetails(modelState).Errors);
+
+
 
         IAsyncRequestBuilder IAsyncApiController.AsyncRequestBuilder => _asyncRequestBuilder;
 
         IAsyncHierarchicRequestBuilder IAsyncHierarchicApiController.AsyncHierarchicRequestBuilder => _asyncHierarchicRequestBuilder;
+
+        IExpectCommit IShouldPerformCommit.CommitPerformer => _commitPerformer;
     }
 }

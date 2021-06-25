@@ -1,9 +1,7 @@
 namespace Pets
 {
-    using System.Reflection;
     using Autofac;
     using Autofac.Extensions.ConfiguredModules;
-    using Filters;
     using Json.Converters.Hierarchy;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
@@ -36,11 +34,11 @@ namespace Pets
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddAutoMapper(Assembly.GetExecutingAssembly())
-                .AddScoped<TransactionFilter>()
-                .AddControllersWithViews(mvcOptions =>
+                .AddAutoMapper(typeof(ApplicationAssemblyMarker).Assembly)
+                .AddControllersWithViews()
+                .ConfigureApiBehaviorOptions(options =>
                 {
-                    mvcOptions.Filters.AddService<TransactionFilter>();
+                    options.SuppressModelStateInvalidFilter = true;
                 })
                 .AddNewtonsoftJson(options =>
                 {

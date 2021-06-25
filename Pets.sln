@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.DataAnnotations.Hier
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Json.Converters.Hierarchy", "Json.Converters.Hierarchy\Json.Converters.Hierarchy.csproj", "{E601F3DB-099E-46FB-AB32-54FC552358D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence.Transactions.Behaviors", "Persistence.Transactions.Behaviors\Persistence.Transactions.Behaviors.csproj", "{9770F4C5-0A51-4FBA-A7BA-E87AEFAFF2B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +103,10 @@ Global
 		{E601F3DB-099E-46FB-AB32-54FC552358D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E601F3DB-099E-46FB-AB32-54FC552358D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E601F3DB-099E-46FB-AB32-54FC552358D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9770F4C5-0A51-4FBA-A7BA-E87AEFAFF2B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9770F4C5-0A51-4FBA-A7BA-E87AEFAFF2B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9770F4C5-0A51-4FBA-A7BA-E87AEFAFF2B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9770F4C5-0A51-4FBA-A7BA-E87AEFAFF2B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,6 +124,7 @@ Global
 		{8B2B7738-9633-47BA-90BE-EDA80EE9C238} = {CD5C4C96-C0FF-4406-A0CB-83B10ABA8667}
 		{1164B248-15B7-45BC-A247-5216DC2FCEFB} = {CD5C4C96-C0FF-4406-A0CB-83B10ABA8667}
 		{E601F3DB-099E-46FB-AB32-54FC552358D9} = {CD5C4C96-C0FF-4406-A0CB-83B10ABA8667}
+		{9770F4C5-0A51-4FBA-A7BA-E87AEFAFF2B2} = {CD5C4C96-C0FF-4406-A0CB-83B10ABA8667}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ECFFC7AE-0911-47AF-B23E-E5C803F24A70}

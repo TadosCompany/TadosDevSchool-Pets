@@ -4,22 +4,24 @@
     using Actions.Get;
     using Actions.GetList;
     using Api.Requests.Abstractions;
-    using AspnetCore.ApiControllers.Abstractions;
     using AspnetCore.ApiControllers.Extensions;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
     using Api.Requests.Hierarchic.Abstractions;
+    using global::Persistence.Transactions.Behaviors;
 
     [Route("api/breed")]
-    public class BreedController : ApiControllerBase
+    public class BreedController : PetsApiControllerBase
     {
         public BreedController(
-            IAsyncRequestBuilder asyncRequestBuilder, 
-            IAsyncHierarchicRequestBuilder asyncHierarchicRequestBuilder)
+            IAsyncRequestBuilder asyncRequestBuilder,
+            IAsyncHierarchicRequestBuilder asyncHierarchicRequestBuilder,
+            IExpectCommit commitPerformer)
             : base(
-                asyncRequestBuilder, 
-                asyncHierarchicRequestBuilder)
+                asyncRequestBuilder,
+                asyncHierarchicRequestBuilder,
+                commitPerformer)
         {
         }
 

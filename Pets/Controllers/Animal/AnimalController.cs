@@ -9,18 +9,20 @@
     using Api.Requests.Hierarchic.Abstractions;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using AspnetCore.ApiControllers.Abstractions;
     using AspnetCore.ApiControllers.Extensions;
+    using global::Persistence.Transactions.Behaviors;
 
     [Route("api/animal")]
-    public class AnimalController : ApiControllerBase
+    public class AnimalController : PetsApiControllerBase
     {
         public AnimalController(
             IAsyncRequestBuilder asyncRequestBuilder, 
-            IAsyncHierarchicRequestBuilder asyncHierarchicRequestBuilder)
+            IAsyncHierarchicRequestBuilder asyncHierarchicRequestBuilder,
+            IExpectCommit commitPerformer)
             : base(
                 asyncRequestBuilder, 
-                asyncHierarchicRequestBuilder)
+                asyncHierarchicRequestBuilder,
+                commitPerformer)
         {
         }
 
@@ -53,7 +55,7 @@
                 .For<AnimalAddHierarchicResponse>()
                 .With(request);
 
-                [HttpPost]
+        [HttpPost]
         [Route("feed")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

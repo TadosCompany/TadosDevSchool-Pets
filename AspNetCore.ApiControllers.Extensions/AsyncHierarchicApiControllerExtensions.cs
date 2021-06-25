@@ -11,7 +11,13 @@
         public static Task<IActionResult> HierarchicRequestAsync<TApiController, THierarchicRequest>(
             this TApiController apiController,
             THierarchicRequest hierarchicRequest)
-            where TApiController : ControllerBase, IAsyncHierarchicApiController, IHasDefaultSuccessActionResult, IHasDefaultFailActionResult, IHasInvalidModelStateActionResult
+            where TApiController : 
+                ControllerBase, 
+                IAsyncHierarchicApiController, 
+                IHasDefaultSuccessActionResult, 
+                IHasDefaultFailActionResult, 
+                IHasInvalidModelStateActionResult,
+                IShouldPerformCommit
             where THierarchicRequest : IHierarchicRequest
             => HierarchicRequestAsync(
                 apiController,
@@ -23,7 +29,12 @@
             this TApiController apiController,
             THierarchicRequest hierarchicRequest,
             Func<IActionResult> success)
-            where TApiController : ControllerBase, IAsyncHierarchicApiController, IHasDefaultFailActionResult, IHasInvalidModelStateActionResult
+            where TApiController : 
+                ControllerBase, 
+                IAsyncHierarchicApiController, 
+                IHasDefaultFailActionResult, 
+                IHasInvalidModelStateActionResult,
+                IShouldPerformCommit
             where THierarchicRequest : IHierarchicRequest
             => HierarchicRequestAsync(
                 apiController,
@@ -36,7 +47,11 @@
             THierarchicRequest hierarchicRequest,
             Func<IActionResult> success,
             Func<Exception, IActionResult> fail)
-            where TApiController : ControllerBase, IAsyncHierarchicApiController, IHasInvalidModelStateActionResult
+            where TApiController : 
+                ControllerBase, 
+                IAsyncHierarchicApiController, 
+                IHasInvalidModelStateActionResult,
+                IShouldPerformCommit
             where THierarchicRequest : IHierarchicRequest
         {
             if (apiController == null)
@@ -52,6 +67,8 @@
             {
                 await apiController.AsyncHierarchicRequestBuilder.ExecuteAsync(hierarchicRequest);
 
+                apiController.CommitPerformer.PerformCommit();
+
                 return success();
             }
             catch (Exception exception)
@@ -65,7 +82,13 @@
         public static Task<IActionResult> HierarchicRequestAsync<TApiController, THierarchicRequest, THierarchicResponse>(
             this TApiController apiController,
             THierarchicRequest hierarchicRequest)
-            where TApiController : ControllerBase, IAsyncHierarchicApiController, IHasDefaultHierarchicResponseSuccessActionResult, IHasDefaultFailActionResult, IHasInvalidModelStateActionResult
+            where TApiController : 
+                ControllerBase, 
+                IAsyncHierarchicApiController, 
+                IHasDefaultHierarchicResponseSuccessActionResult, 
+                IHasDefaultFailActionResult, 
+                IHasInvalidModelStateActionResult,
+                IShouldPerformCommit
             where THierarchicRequest : IHierarchicRequest<THierarchicResponse>
             where THierarchicResponse : IHierarchicResponse
             => HierarchicRequestAsync(
@@ -78,7 +101,12 @@
             this TApiController apiController,
             THierarchicRequest hierarchicRequest,
             Func<THierarchicResponse, IActionResult> success)
-            where TApiController : ControllerBase, IAsyncHierarchicApiController, IHasDefaultFailActionResult, IHasInvalidModelStateActionResult
+            where TApiController : 
+                ControllerBase, 
+                IAsyncHierarchicApiController, 
+                IHasDefaultFailActionResult, 
+                IHasInvalidModelStateActionResult,
+                IShouldPerformCommit
             where THierarchicRequest : IHierarchicRequest<THierarchicResponse>
             where THierarchicResponse : IHierarchicResponse
             => HierarchicRequestAsync(
@@ -92,7 +120,11 @@
             THierarchicRequest hierarchicRequest,
             Func<THierarchicResponse, IActionResult> success,
             Func<Exception, IActionResult> fail)
-            where TApiController : ControllerBase, IAsyncHierarchicApiController, IHasInvalidModelStateActionResult
+            where TApiController : 
+                ControllerBase, 
+                IAsyncHierarchicApiController, 
+                IHasInvalidModelStateActionResult,
+                IShouldPerformCommit
             where THierarchicRequest : IHierarchicRequest<THierarchicResponse>
             where THierarchicResponse : IHierarchicResponse
         {
@@ -108,6 +140,8 @@
             try
             {
                 THierarchicResponse hierarchicResponse = await apiController.AsyncHierarchicRequestBuilder.ExecuteAsync<THierarchicRequest, THierarchicResponse>(hierarchicRequest);
+
+                apiController.CommitPerformer.PerformCommit();
 
                 return success(hierarchicResponse);
             }

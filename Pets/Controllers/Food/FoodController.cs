@@ -9,18 +9,20 @@
     using Api.Requests.Hierarchic.Abstractions;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using AspnetCore.ApiControllers.Abstractions;
     using AspnetCore.ApiControllers.Extensions;
+    using global::Persistence.Transactions.Behaviors;
 
     [Route("api/food")]
-    public class FoodController : ApiControllerBase
+    public class FoodController : PetsApiControllerBase
     {
         public FoodController(
-            IAsyncRequestBuilder asyncRequestBuilder, 
-            IAsyncHierarchicRequestBuilder asyncHierarchicRequestBuilder)
+            IAsyncRequestBuilder asyncRequestBuilder,
+            IAsyncHierarchicRequestBuilder asyncHierarchicRequestBuilder,
+            IExpectCommit commitPerformer)
             : base(
-                asyncRequestBuilder, 
-                asyncHierarchicRequestBuilder)
+                asyncRequestBuilder,
+                asyncHierarchicRequestBuilder,
+                commitPerformer)
         {
         }
 

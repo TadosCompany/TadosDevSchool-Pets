@@ -5,6 +5,7 @@
     using Database.Transactions.Scoped;
     using global::Autofac;
     using global::Autofac.Extensions.ConfiguredModules;
+    using global::Persistence.Transactions.Behaviors;
     using Microsoft.Extensions.Configuration;
     using Persistence;
 
@@ -27,8 +28,9 @@
                 .SingleInstance();
 
             builder
-                .RegisterType<ScopedDbTransactionProvider>()
+                .RegisterType<ExpectCommitScopedSessionProvider>()
                 .As<IDbTransactionProvider>()
+                .As<IExpectCommit>()
                 .InstancePerLifetimeScope();
         }
     }

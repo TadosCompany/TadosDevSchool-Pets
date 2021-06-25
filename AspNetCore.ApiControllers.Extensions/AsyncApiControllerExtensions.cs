@@ -11,7 +11,13 @@
         public static Task<IActionResult> RequestAsync<TApiController, TRequest>(
             this TApiController apiController,
             TRequest request)
-            where TApiController : ControllerBase, IAsyncApiController, IHasDefaultSuccessActionResult, IHasDefaultFailActionResult, IHasInvalidModelStateActionResult
+            where TApiController : 
+                ControllerBase, 
+                IAsyncApiController, 
+                IHasDefaultSuccessActionResult, 
+                IHasDefaultFailActionResult, 
+                IHasInvalidModelStateActionResult,
+                IShouldPerformCommit
             where TRequest : IRequest
             => RequestAsync(
                 apiController,
@@ -23,7 +29,12 @@
             this TApiController apiController,
             TRequest request,
             Func<IActionResult> success)
-            where TApiController : ControllerBase, IAsyncApiController, IHasDefaultFailActionResult, IHasInvalidModelStateActionResult
+            where TApiController : 
+                ControllerBase, 
+                IAsyncApiController, 
+                IHasDefaultFailActionResult, 
+                IHasInvalidModelStateActionResult,
+                IShouldPerformCommit
             where TRequest : IRequest
             => RequestAsync(
                 apiController,
@@ -36,7 +47,11 @@
             TRequest request,
             Func<IActionResult> success,
             Func<Exception, IActionResult> fail)
-            where TApiController : ControllerBase, IAsyncApiController, IHasInvalidModelStateActionResult
+            where TApiController : 
+                ControllerBase,
+                IAsyncApiController, 
+                IHasInvalidModelStateActionResult,
+                IShouldPerformCommit
             where TRequest : IRequest
         {
             if (apiController == null)
@@ -52,6 +67,8 @@
             {
                 await apiController.AsyncRequestBuilder.ExecuteAsync(request);
 
+                apiController.CommitPerformer.PerformCommit();
+
                 return success();
             }
             catch (Exception exception)
@@ -65,7 +82,13 @@
         public static Task<IActionResult> RequestAsync<TApiController, TRequest, TResponse>(
             this TApiController apiController,
             TRequest request)
-            where TApiController : ControllerBase, IAsyncApiController, IHasDefaultResponseSuccessActionResult, IHasDefaultFailActionResult, IHasInvalidModelStateActionResult
+            where TApiController : 
+                ControllerBase, 
+                IAsyncApiController, 
+                IHasDefaultResponseSuccessActionResult, 
+                IHasDefaultFailActionResult, 
+                IHasInvalidModelStateActionResult,
+                IShouldPerformCommit
             where TRequest : IRequest<TResponse>
             where TResponse : IResponse
             => RequestAsync(
@@ -78,7 +101,12 @@
             this TApiController apiController,
             TRequest request,
             Func<TResponse, IActionResult> success)
-            where TApiController : ControllerBase, IAsyncApiController, IHasDefaultFailActionResult, IHasInvalidModelStateActionResult
+            where TApiController : 
+                ControllerBase, 
+                IAsyncApiController, 
+                IHasDefaultFailActionResult, 
+                IHasInvalidModelStateActionResult,
+                IShouldPerformCommit
             where TRequest : IRequest<TResponse>
             where TResponse : IResponse
             => RequestAsync(
@@ -92,7 +120,11 @@
             TRequest request,
             Func<TResponse, IActionResult> success,
             Func<Exception, IActionResult> fail)
-            where TApiController : ControllerBase, IAsyncApiController, IHasInvalidModelStateActionResult
+            where TApiController : 
+                ControllerBase, 
+                IAsyncApiController, 
+                IHasInvalidModelStateActionResult,
+                IShouldPerformCommit
             where TRequest : IRequest<TResponse>
             where TResponse : IResponse
         {
@@ -108,6 +140,8 @@
             try
             {
                 TResponse response = await apiController.AsyncRequestBuilder.ExecuteAsync<TRequest, TResponse>(request);
+
+                apiController.CommitPerformer.PerformCommit();
 
                 return success(response);
             }

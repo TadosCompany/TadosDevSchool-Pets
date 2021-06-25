@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Api.Requests.Abstractions\Api.Requests.Abstractions.csproj" />
     <ProjectReference Include="..\Api.Requests.Hierarchic.Abstractions\Api.Requests.Hierarchic.Abstractions.csproj" />
+    <ProjectReference Include="..\Persistence.Transactions.Behaviors\Persistence.Transactions.Behaviors.csproj" />
   </ItemGroup>
 
 </Project>
