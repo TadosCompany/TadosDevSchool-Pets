@@ -1,19 +1,13 @@
 namespace Pets
 {
-    using Database.Sqlite;
-    using Database.Transactions.Scoped;
-    using DI.Microsoft.DependencyInjection.Extensions;
-    using Domain.Services.Animals;
-    using Filters;
-    using Initializers;
+    using Autofac;
+    using Autofac.Extensions.ConfiguredModules;
+    using Json.Converters.Hierarchy;
     using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
-    using Microsoft.OpenApi.Models;
-    using Persistence.Commands;
-    using Persistence.Queries;
+    using Persistence;
+    using Swagger;
 
     public class Startup
     {
@@ -28,71 +22,63 @@ namespace Pets
 
 
 
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureDevelopmentServices(IServiceCollection services)
         {
-            services.AddScoped<TransactionFilter>();
-            
-            services.AddControllersWithViews(mvcOptions =>
-            {
-                mvcOptions.Filters.AddService<TransactionFilter>();
-            }).AddNewtonsoftJson();
-            
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc(
-                    name: "v1",
-                    info: new OpenApiInfo
-                    {
-                        Title = "Pets API",
-                        Version = "v1"
-                    });
-
-                options.CustomSchemaIds(x => x.FullName);
-            });
-
-            string connectionString = Configuration.GetConnectionString("Pets");
-
-            services.Configure<SqliteConnectionFactoryOptions>(options =>
-            {
-                options.ConnectionString = connectionString;
-            });
-
             services
-                .AddDatabase<SqliteConnectionFactory, ScopedDbTransactionProvider>()
-                .AddQueriesFromAssemblyContaining<FindAnimalByIdQuery>()
-                .AddCommandsFromAssemblyContaining<CreateCatCommand>()
-                .AddDomainServicesFromAssemblyContaining<AnimalServiceBase>();
-            
-            DatabaseInitializer.Init(connectionString);
+                .AddSwagger();
+
+
+            ConfigureServices(services);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void ConfigureServices(IServiceCollection services)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-
-                app.UseSwagger();
-                app.UseSwaggerUI(options =>
+            services
+                .AddAutoMapper(typeof(ApplicationAssemblyMarker).Assembly)
+                .AddControllersWithViews()
+                .ConfigureApiBehaviorOptions(options =>
                 {
-                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Pets API");
+                    options.SuppressModelStateInvalidFilter = true;
+                })
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.Converters.Add(new HierarchyJsonConverter());
                 });
-            }
+        }
 
-            // app.UseHttpsRedirection();
 
-            app.UseStaticFiles();
-            
-            app.UseRouting();
 
-            // app.UseAuthorization();
+        public void ConfigureContainer(ContainerBuilder containerBuilder)
+        {
+            containerBuilder
+                .RegisterConfiguredModulesFromCurrentAssembly(Configuration);
+        }
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
 
-                endpoints.MapFallbackToController("Index", "Home");
-            });
+
+        public void ConfigureDevelopment(IApplicationBuilder applicationBuilder, Database database)
+        {
+            applicationBuilder
+                .UseDeveloperExceptionPage()
+                .UseSwagger();
+
+
+            Configure(applicationBuilder, database);
+        }
+
+        public void Configure(IApplicationBuilder applicationBuilder, Database database)
+        {
+            database.InitAsync().Wait();
+
+
+            applicationBuilder
+                .UseStaticFiles()
+                .UseRouting()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                    endpoints.MapFallbackToController("Index", "Home");
+                });
         }
     }
 }

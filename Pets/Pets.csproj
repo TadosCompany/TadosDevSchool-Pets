@@ -5,13 +5,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.2.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
+    <PackageReference Include="Tados.Autofac.Extensions.ConfiguredModules" Version="1.0.0" />
+    <PackageReference Include="Tados.Autofac.Extensions.TypedFactories" Version="1.0.1.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Api.Requests.Abstractions\Api.Requests.Abstractions.csproj" />
+    <ProjectReference Include="..\Api.Requests.Hierarchic.Abstractions\Api.Requests.Hierarchic.Abstractions.csproj" />
+    <ProjectReference Include="..\AspNetCore.ApiControllers.Abstractions\AspNetCore.ApiControllers.Abstractions.csproj" />
+    <ProjectReference Include="..\AspNetCore.ApiControllers.Extensions\AspNetCore.ApiControllers.Extensions.csproj" />
+    <ProjectReference Include="..\Common.DataAnnotations.Hierarchy\Common.DataAnnotations.Hierarchy.csproj" />
     <ProjectReference Include="..\Database.Sqlite\Database.Sqlite.csproj" />
     <ProjectReference Include="..\Database.Transactions.Scoped\Database.Transactions.Scoped.csproj" />
+    <ProjectReference Include="..\Json.Converters.Hierarchy\Json.Converters.Hierarchy.csproj" />
     <ProjectReference Include="..\Pets.Domain\Pets.Domain.csproj" />
     <ProjectReference Include="..\Pets.Persistence\Pets.Persistence.csproj" />
   </ItemGroup>

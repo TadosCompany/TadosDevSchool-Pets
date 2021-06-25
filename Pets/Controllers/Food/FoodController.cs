@@ -1,114 +1,65 @@
 ﻿namespace Pets.Controllers.Food
 {
-    using System;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Add;
-    using Append;
-    using Commands.Abstractions;
-    using Domain.Commands.Contexts;
-    using Domain.Criteria;
-    using Get;
-    using GetList;
+    using Actions.Add;
+    using Actions.Append;
+    using Actions.Get;
+    using Actions.GetList;
+    using Api.Requests.Abstractions;
+    using Api.Requests.Hierarchic.Abstractions;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Domain.Entities;
-    using Domain.Services.Foods;
-    using Queries.Abstractions;
+    using AspnetCore.ApiControllers.Extensions;
+    using global::Persistence.Transactions.Behaviors;
 
-
-    [ApiController]
     [Route("api/food")]
-    public class FoodController : Controller
+    public class FoodController : PetsApiControllerBase
     {
-        private readonly IFoodService _foodService;
-        private readonly IAsyncQueryBuilder _queryBuilder;
-        private readonly IAsyncCommandBuilder _commandBuilder;
-
-
         public FoodController(
-            IFoodService foodService,
-            IAsyncQueryBuilder queryBuilder,
-            IAsyncCommandBuilder commandBuilder)
+            IAsyncRequestBuilder asyncRequestBuilder,
+            IAsyncHierarchicRequestBuilder asyncHierarchicRequestBuilder,
+            IExpectCommit commitPerformer)
+            : base(
+                asyncRequestBuilder,
+                asyncHierarchicRequestBuilder,
+                commitPerformer)
         {
-            _foodService = foodService ?? throw new ArgumentNullException(nameof(foodService));
-            _queryBuilder = queryBuilder ?? throw new ArgumentNullException(nameof(queryBuilder));
-            _commandBuilder = commandBuilder ?? throw new ArgumentNullException(nameof(commandBuilder));
         }
+
 
 
         [HttpPost]
         [Route("getList")]
         [ProducesResponseType(typeof(FoodGetListResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetList(FoodGetListRequest request)
-        {
-            List<Food> foods = await _queryBuilder
-                .For<List<Food>>()
-                .WithAsync(new FindBySearchAndAnimalType(request.Search, request.AnimalType));
-
-            FoodGetListResponse response = new FoodGetListResponse()
-            {
-                Foods = foods,
-            };
-
-            return Json(response);
-        }
+        public Task<IActionResult> GetList(FoodGetListRequest request)
+            => this.RequestAsync()
+                .For<FoodGetListResponse>()
+                .With(request);
 
         [HttpPost]
         [Route("get")]
         [ProducesResponseType(typeof(FoodGetResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Get(FoodGetRequest request)
-        {
-            Food food = await _queryBuilder
-                .For<Food>()
-                .WithAsync(new FindById(request.Id));
-
-            FoodGetResponse response = new FoodGetResponse()
-            {
-                Food = food,
-            };
-
-            return Json(response);
-        }
+        public Task<IActionResult> Get(FoodGetRequest request)
+            => this.RequestAsync()
+                .For<FoodGetResponse>()
+                .With(request);
 
         [HttpPost]
         [Route("add")]
         [ProducesResponseType(typeof(FoodAddResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Add(FoodAddRequest request)
-        {
-            Food food = await _foodService.CreateFoodAsync(
-                animalType: request.AnimalType,
-                name: request.Name.Trim()
-            );
-
-            FoodAddResponse response = new FoodAddResponse()
-            {
-                Id = food.Id,
-            };
-
-            return Json(response);
-        }
+        public Task<IActionResult> Add(FoodAddRequest request)
+            => this.RequestAsync()
+                .For<FoodAddResponse>()
+                .With(request);
 
         [HttpPost]
         [Route("append")]
-        [ProducesResponseType(typeof(FoodAppendResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Append(FoodAppendRequest request)
-        {
-            Food food = await _queryBuilder
-                .For<Food>()
-                .WithAsync(new FindById(request.Id));
-
-            food.Increase(request.Count);
-
-            await _commandBuilder.ExecuteAsync(new UpdateFoodCommandContext(food));
-
-            FoodAppendResponse response = new FoodAppendResponse();
-
-            return Json(response);
-        }
+        public Task<IActionResult> Append(FoodAppendRequest request)
+            => this.RequestAsync(request);
     }
 }

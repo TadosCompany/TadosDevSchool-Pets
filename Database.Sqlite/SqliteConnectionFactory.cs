@@ -6,23 +6,30 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Abstractions;
-    using Microsoft.Extensions.Options;
-
 
     public class SqliteConnectionFactory : IDbConnectionFactory
     {
-        private readonly IOptions<SqliteConnectionFactoryOptions> _options;
+        public static readonly string ConnectionStringParameterName = nameof(_connectionString).TrimStart('_');
 
 
-        public SqliteConnectionFactory(IOptions<SqliteConnectionFactoryOptions> options)
+
+        private readonly string _connectionString;
+
+        
+
+        public SqliteConnectionFactory(string connectionString)
         {
-            _options = options ?? throw new ArgumentNullException(nameof(options));
+            if (string.IsNullOrWhiteSpace(connectionString))
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(connectionString));
+
+            _connectionString = connectionString;
         }
+
 
 
         public async Task<DbConnection> CreateConnectionAsync(CancellationToken cancellationToken = default)
         {
-            DbConnection connection = new SQLiteConnection(_options.Value.ConnectionString);
+            DbConnection connection = new SQLiteConnection(_connectionString);
 
             await connection.OpenAsync(cancellationToken);
             

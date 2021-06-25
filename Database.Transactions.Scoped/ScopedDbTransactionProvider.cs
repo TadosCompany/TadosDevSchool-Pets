@@ -14,7 +14,9 @@
 
         private DbConnection _connection;
         private DbTransaction _transaction;
-        private bool _disposed;
+
+        protected bool Disposed;
+
 
 
         public ScopedDbTransactionProvider(IDbConnectionFactory dbConnectionFactory)
@@ -26,14 +28,18 @@
         {
             Dispose(false);
         }
-        
-        #region IDbTransactionProvider implementation
 
-        public bool IsInitialized => !_disposed && _transaction != null;
+
+
+        private bool IsInitialized => !Disposed && _transaction != null;
+
+
+
+        #region IDbTransactionProvider implementation
 
         public async Task<DbTransaction> GetCurrentTransactionAsync(CancellationToken cancellationToken = default)
         {
-            if (_disposed)
+            if (Disposed)
                 throw new ObjectDisposedException(nameof(ScopedDbTransactionProvider));
 
             if (_transaction != null)
@@ -47,14 +53,16 @@
 
         #endregion
 
+
+
         #region IDisposable implementation
 
         protected virtual void Dispose(bool disposing)
         {
-            if (_disposed)
+            if (Disposed)
                 return;
 
-            _disposed = true;
+            Disposed = true;
 
             if (disposing)
             {
@@ -70,5 +78,23 @@
         }
 
         #endregion
+
+
+
+        protected void CommitTransaction()
+        {
+            if (!IsInitialized)
+                return;
+
+            _transaction.Commit();
+        }
+
+        protected void RollbackTransaction()
+        {
+            if (!IsInitialized)
+                return;
+
+            _transaction.Rollback();
+        }
     }
 }

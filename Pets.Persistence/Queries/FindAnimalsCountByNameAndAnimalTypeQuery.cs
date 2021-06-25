@@ -5,8 +5,8 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Dapper;
-    using Database.Abstractions;
     using Domain.Criteria;
+    using global::Database.Abstractions;
     using global::Queries.Abstractions;
 
 
