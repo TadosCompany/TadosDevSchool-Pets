@@ -1,6 +1,7 @@
 ﻿namespace Pets.DI.Autofac.Modules
 {
     using Api.Requests.Abstractions;
+    using Api.Requests.Hierarchic.Abstractions;
     using global::Autofac;
     using Tados.Autofac.Extensions.TypedFactories;
 
@@ -25,6 +26,25 @@
             builder
                 .RegisterType<DefaultAsyncRequestBuilder>()
                 .As<IAsyncRequestBuilder>()
+                .InstancePerLifetimeScope();
+
+
+            builder
+                .RegisterAssemblyTypes(typeof(ApplicationAssemblyMarker).Assembly)
+                .AsClosedTypesOf(typeof(IAsyncHierarchicRequestHandler<>))
+                .InstancePerDependency();
+            builder
+                .RegisterAssemblyTypes(typeof(ApplicationAssemblyMarker).Assembly)
+                .AsClosedTypesOf(typeof(IAsyncHierarchicRequestHandler<,>))
+                .InstancePerDependency();
+
+            builder
+                .RegisterRuntimeTypedFactory<IAsyncHierarchicRequestHandlerFactory>()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterType<DefaultAsyncHierarchicRequestBuilder>()
+                .As<IAsyncHierarchicRequestBuilder>()
                 .InstancePerLifetimeScope();
         }
     }

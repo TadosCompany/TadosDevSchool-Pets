@@ -4,6 +4,7 @@ namespace Pets
     using Autofac;
     using Autofac.Extensions.ConfiguredModules;
     using Filters;
+    using Json.Converters.Hierarchy;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -41,7 +42,10 @@ namespace Pets
                 {
                     mvcOptions.Filters.AddService<TransactionFilter>();
                 })
-                .AddNewtonsoftJson();
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.Converters.Add(new HierarchyJsonConverter());
+                });
         }
 
 

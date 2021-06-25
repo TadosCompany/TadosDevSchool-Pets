@@ -17,10 +17,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Api.Requests.Abstractions\Api.Requests.Abstractions.csproj" />
+    <ProjectReference Include="..\Api.Requests.Hierarchic.Abstractions\Api.Requests.Hierarchic.Abstractions.csproj" />
     <ProjectReference Include="..\AspNetCore.ApiControllers.Abstractions\AspNetCore.ApiControllers.Abstractions.csproj" />
     <ProjectReference Include="..\AspNetCore.ApiControllers.Extensions\AspNetCore.ApiControllers.Extensions.csproj" />
+    <ProjectReference Include="..\Common.DataAnnotations.Hierarchy\Common.DataAnnotations.Hierarchy.csproj" />
     <ProjectReference Include="..\Database.Sqlite\Database.Sqlite.csproj" />
     <ProjectReference Include="..\Database.Transactions.Scoped\Database.Transactions.Scoped.csproj" />
+    <ProjectReference Include="..\Json.Converters.Hierarchy\Json.Converters.Hierarchy.csproj" />
     <ProjectReference Include="..\Pets.Domain\Pets.Domain.csproj" />
     <ProjectReference Include="..\Pets.Persistence\Pets.Persistence.csproj" />
   </ItemGroup>

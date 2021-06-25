@@ -9,13 +9,13 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
+    using Api.Requests.Hierarchic.Abstractions;
 
-    [ApiController]
     [Route("api/breed")]
     public class BreedController : ApiControllerBase
     {
-        public BreedController(IAsyncRequestBuilder asyncRequestBuilder) 
-            : base(asyncRequestBuilder)
+        public BreedController(IAsyncRequestBuilder asyncRequestBuilder, IAsyncHierarchicRequestBuilder asyncHierarchicRequestBuilder)
+            : base(asyncRequestBuilder, asyncHierarchicRequestBuilder)
         {
         }
 

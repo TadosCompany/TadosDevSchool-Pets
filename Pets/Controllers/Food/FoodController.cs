@@ -6,17 +6,17 @@
     using Actions.Get;
     using Actions.GetList;
     using Api.Requests.Abstractions;
+    using Api.Requests.Hierarchic.Abstractions;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using AspnetCore.ApiControllers.Abstractions;
     using AspnetCore.ApiControllers.Extensions;
 
-    [ApiController]
     [Route("api/food")]
     public class FoodController : ApiControllerBase
     {
-        public FoodController(IAsyncRequestBuilder asyncRequestBuilder)
-            : base(asyncRequestBuilder)
+        public FoodController(IAsyncRequestBuilder asyncRequestBuilder, IAsyncHierarchicRequestBuilder asyncHierarchicRequestBuilder)
+            : base(asyncRequestBuilder, asyncHierarchicRequestBuilder)
         {
         }
 

@@ -23,11 +23,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Queries.Abstractions", "Que
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pets.Persistence", "Pets.Persistence\Pets.Persistence.csproj", "{4A1C26E3-D7DF-43DE-BA95-16CD6B3A5D54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Requests.Abstractions", "Api.Requests.Abstractions\Api.Requests.Abstractions.csproj", "{A95F9F4F-BC89-4B0A-B418-660458A64947}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Requests.Abstractions", "Api.Requests.Abstractions\Api.Requests.Abstractions.csproj", "{A95F9F4F-BC89-4B0A-B418-660458A64947}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore.ApiControllers.Abstractions", "AspNetCore.ApiControllers.Abstractions\AspNetCore.ApiControllers.Abstractions.csproj", "{01765200-DD1A-410B-A403-1637B312EA5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.ApiControllers.Abstractions", "AspNetCore.ApiControllers.Abstractions\AspNetCore.ApiControllers.Abstractions.csproj", "{01765200-DD1A-410B-A403-1637B312EA5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore.ApiControllers.Extensions", "AspNetCore.ApiControllers.Extensions\AspNetCore.ApiControllers.Extensions.csproj", "{06A639EA-A4C3-4973-8CC2-29F4409D4A99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore.ApiControllers.Extensions", "AspNetCore.ApiControllers.Extensions\AspNetCore.ApiControllers.Extensions.csproj", "{06A639EA-A4C3-4973-8CC2-29F4409D4A99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Requests.Hierarchic.Abstractions", "Api.Requests.Hierarchic.Abstractions\Api.Requests.Hierarchic.Abstractions.csproj", "{8B2B7738-9633-47BA-90BE-EDA80EE9C238}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.DataAnnotations.Hierarchy", "Common.DataAnnotations.Hierarchy\Common.DataAnnotations.Hierarchy.csproj", "{1164B248-15B7-45BC-A247-5216DC2FCEFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Json.Converters.Hierarchy", "Json.Converters.Hierarchy\Json.Converters.Hierarchy.csproj", "{E601F3DB-099E-46FB-AB32-54FC552358D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +89,18 @@ Global
 		{06A639EA-A4C3-4973-8CC2-29F4409D4A99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06A639EA-A4C3-4973-8CC2-29F4409D4A99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06A639EA-A4C3-4973-8CC2-29F4409D4A99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B2B7738-9633-47BA-90BE-EDA80EE9C238}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B2B7738-9633-47BA-90BE-EDA80EE9C238}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B2B7738-9633-47BA-90BE-EDA80EE9C238}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B2B7738-9633-47BA-90BE-EDA80EE9C238}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1164B248-15B7-45BC-A247-5216DC2FCEFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1164B248-15B7-45BC-A247-5216DC2FCEFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1164B248-15B7-45BC-A247-5216DC2FCEFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1164B248-15B7-45BC-A247-5216DC2FCEFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E601F3DB-099E-46FB-AB32-54FC552358D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E601F3DB-099E-46FB-AB32-54FC552358D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E601F3DB-099E-46FB-AB32-54FC552358D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E601F3DB-099E-46FB-AB32-54FC552358D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +115,9 @@ Global
 		{A95F9F4F-BC89-4B0A-B418-660458A64947} = {CD5C4C96-C0FF-4406-A0CB-83B10ABA8667}
 		{01765200-DD1A-410B-A403-1637B312EA5B} = {CD5C4C96-C0FF-4406-A0CB-83B10ABA8667}
 		{06A639EA-A4C3-4973-8CC2-29F4409D4A99} = {CD5C4C96-C0FF-4406-A0CB-83B10ABA8667}
+		{8B2B7738-9633-47BA-90BE-EDA80EE9C238} = {CD5C4C96-C0FF-4406-A0CB-83B10ABA8667}
+		{1164B248-15B7-45BC-A247-5216DC2FCEFB} = {CD5C4C96-C0FF-4406-A0CB-83B10ABA8667}
+		{E601F3DB-099E-46FB-AB32-54FC552358D9} = {CD5C4C96-C0FF-4406-A0CB-83B10ABA8667}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ECFFC7AE-0911-47AF-B23E-E5C803F24A70}

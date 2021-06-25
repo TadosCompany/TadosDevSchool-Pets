@@ -2,6 +2,7 @@
 {
     using System;
     using Api.Requests.Abstractions;
+    using Api.Requests.Hierarchic.Abstractions;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -9,25 +10,24 @@
     public class ApiControllerBase
         : ControllerBase,
             IAsyncApiController,
-            //IAsyncHierarchicApiController,
+            IAsyncHierarchicApiController,
             IHasDefaultSuccessActionResult,
             IHasDefaultResponseSuccessActionResult,
-            //IHasDefaultHierarchicResponseSuccessActionResult,
+            IHasDefaultHierarchicResponseSuccessActionResult,
             IHasDefaultFailActionResult,
             IHasInvalidModelStateActionResult
     {
         private readonly IAsyncRequestBuilder _asyncRequestBuilder;
-        //private readonly IAsyncHierarchicRequestBuilder _asyncHierarchicRequestBuilder;
+        private readonly IAsyncHierarchicRequestBuilder _asyncHierarchicRequestBuilder;
 
 
 
         public ApiControllerBase(
-            IAsyncRequestBuilder asyncRequestBuilder
-            //IAsyncHierarchicRequestBuilder asyncHierarchicRequestBuilder
-            )
+            IAsyncRequestBuilder asyncRequestBuilder,
+            IAsyncHierarchicRequestBuilder asyncHierarchicRequestBuilder)
         {
             _asyncRequestBuilder = asyncRequestBuilder ?? throw new ArgumentNullException(nameof(asyncRequestBuilder));
-            //_asyncHierarchicRequestBuilder = asyncHierarchicRequestBuilder ?? throw new ArgumentNullException(nameof(asyncHierarchicRequestBuilder));
+            _asyncHierarchicRequestBuilder = asyncHierarchicRequestBuilder ?? throw new ArgumentNullException(nameof(asyncHierarchicRequestBuilder));
         }
 
 
@@ -39,9 +39,9 @@
             where TResponse : IResponse
             => (response) => new OkObjectResult(response);
 
-        //public Func<THierarchicResponse, IActionResult> HierarchicResponseSuccess<THierarchicResponse>()
-        //    where THierarchicResponse : IHierarchicResponse
-        //    => (response) => new OkObjectResult(response);
+        public Func<THierarchicResponse, IActionResult> HierarchicResponseSuccess<THierarchicResponse>()
+            where THierarchicResponse : IHierarchicResponse
+            => (response) => new OkObjectResult(response);
 
         public Func<Exception, IActionResult> Fail
             => (exception) => new BadRequestObjectResult(exception.Message);
@@ -51,6 +51,6 @@
 
         IAsyncRequestBuilder IAsyncApiController.AsyncRequestBuilder => _asyncRequestBuilder;
 
-        //IAsyncHierarchicRequestBuilder IAsyncHierarchicApiController.AsyncHierarchicRequestBuilder => _asyncHierarchicRequestBuilder;
+        IAsyncHierarchicRequestBuilder IAsyncHierarchicApiController.AsyncHierarchicRequestBuilder => _asyncHierarchicRequestBuilder;
     }
 }
