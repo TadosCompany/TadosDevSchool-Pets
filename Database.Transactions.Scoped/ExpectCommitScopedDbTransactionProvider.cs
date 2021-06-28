@@ -4,9 +4,9 @@
     using Abstractions;
     using Persistence.Transactions.Behaviors;
 
-    public class ExpectCommitScopedSessionProvider : ScopedDbTransactionProvider, IExpectCommit
+    public class ExpectCommitScopedDbTransactionProvider : ScopedDbTransactionProvider, IExpectCommit
     {
-        public ExpectCommitScopedSessionProvider(IDbConnectionFactory dbConnectionFactory)
+        public ExpectCommitScopedDbTransactionProvider(IDbConnectionFactory dbConnectionFactory)
             : base(dbConnectionFactory)
         {
         }

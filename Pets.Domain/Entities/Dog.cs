@@ -35,6 +35,6 @@
         }
 
 
-        public decimal TailLength { get; init; }
+        public virtual decimal TailLength { get; protected set; }
     }
 }

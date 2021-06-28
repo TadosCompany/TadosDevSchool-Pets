@@ -7,27 +7,27 @@
     using global::Domain.Abstractions;
 
 
-    public class UpdateObjectWithIdCommandContext<TObjectWithId> : ICommandContext
-        where TObjectWithId : IHasId
+    public class UpdateObjectWithIdCommandContext<THasId> : ICommandContext
+        where THasId : class, IHasId, new()
     {
-        public UpdateObjectWithIdCommandContext(TObjectWithId objectWithId)
+        public UpdateObjectWithIdCommandContext(THasId objectWithId)
         {
             ObjectWithId = objectWithId ?? throw new ArgumentNullException(nameof(objectWithId));
         }
 
 
-        public TObjectWithId ObjectWithId { get; }
+        public THasId ObjectWithId { get; }
     }
 
     public static class UpdateObjectWithIdCommandContextExtensions
     {
-        public static Task UpdateAsync<TObjectWithId>(
+        public static Task UpdateAsync<THasId>(
             this IAsyncCommandBuilder commandBuilder,
-            TObjectWithId objectWithId,
-            CancellationToken cancellationToken = default) where TObjectWithId : IHasId
+            THasId objectWithId,
+            CancellationToken cancellationToken = default) where THasId : class, IHasId, new()
         {
             return commandBuilder.ExecuteAsync(
-                new UpdateObjectWithIdCommandContext<TObjectWithId>(objectWithId),
+                new UpdateObjectWithIdCommandContext<THasId>(objectWithId),
                 cancellationToken);
         }
     }

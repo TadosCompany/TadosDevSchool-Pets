@@ -2,17 +2,43 @@
 {
     using Commands.Abstractions;
     using global::Autofac;
+    using global::Autofac.Extensions.ConfiguredModules;
+    using Microsoft.Extensions.Configuration;
     using Persistence;
+    using Persistence.ORM;
+    using Persistence.ORM.Commands;
     using Tados.Autofac.Extensions.TypedFactories;
 
-    public class CommandsModule : Module
+    public class CommandsModule : ConfiguredModule
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder
-                .RegisterAssemblyTypes(typeof(PersistenceAssemblyMarker).Assembly)
-                .AsClosedTypesOf(typeof(IAsyncCommand<>))
-                .InstancePerDependency();
+            bool useOrm = Configuration.GetValue("UseORM", false);
+
+            if (!useOrm)
+            {
+                builder
+                    .RegisterAssemblyTypes(typeof(PersistenceAssemblyMarker).Assembly)
+                    .AsClosedTypesOf(typeof(IAsyncCommand<>))
+                    .InstancePerDependency();
+            }
+            else
+            {
+                builder
+                    .RegisterGeneric(typeof(CreateObjectWithIdCommand<>))
+                    .As(typeof(IAsyncCommand<>))
+                    .InstancePerDependency();
+                
+                builder
+                    .RegisterGeneric(typeof(UpdateObjectWithIdCommand<>))
+                    .As(typeof(IAsyncCommand<>))
+                    .InstancePerDependency();
+                
+                builder
+                    .RegisterAssemblyTypes(typeof(PersistenceOrmAssemblyMarker).Assembly)
+                    .AsClosedTypesOf(typeof(IAsyncCommand<>))
+                    .InstancePerDependency();
+            }
 
             builder
                 .RegisterGenericTypedFactory<IAsyncCommandFactory>()

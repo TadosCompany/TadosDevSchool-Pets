@@ -28,10 +28,10 @@
 
 
 
-        public long Id { get; set; }
+        public virtual long Id { get; set; }
 
-        public AnimalType AnimalType { get; protected set; }
+        public virtual AnimalType AnimalType { get; protected set; }
 
-        public string Name { get; protected set; }
+        public virtual string Name { get; protected set; }
     }
 }

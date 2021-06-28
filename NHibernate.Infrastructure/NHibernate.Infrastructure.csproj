@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Linq.AsyncQueryable.Abstractions\Linq.AsyncQueryable.Abstractions.csproj" />
+      <ProjectReference Include="..\Linq.Providers.Abstractions\Linq.Providers.Abstractions.csproj" />
+      <ProjectReference Include="..\Persistence.Transactions.Behaviors\Persistence.Transactions.Behaviors.csproj" />
+      <ProjectReference Include="..\Repositories.Abstractions\Repositories.Abstractions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="NHibernate" Version="5.3.8" />
+    </ItemGroup>
+
+</Project>

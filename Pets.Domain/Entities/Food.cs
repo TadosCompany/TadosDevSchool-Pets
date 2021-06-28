@@ -34,17 +34,17 @@
 
 
 
-        public long Id { get; set; }
+        public virtual long Id { get; set; }
 
-        public AnimalType AnimalType { get; protected set; }
+        public virtual AnimalType AnimalType { get; protected set; }
 
-        public string Name { get; protected set; }
+        public virtual string Name { get; protected set; }
 
-        public int Count { get; protected set; }
+        public virtual int Count { get; protected set; }
 
 
 
-        public void Increase(int count)
+        public virtual void Increase(int count)
         {
             if (count <= 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
@@ -52,7 +52,7 @@
             Count += count;
         }
 
-        protected internal void Decrease(int count)
+        protected internal virtual void Decrease(int count)
         {
             if (count <= 0 || count > Count)
                 throw new ArgumentOutOfRangeException(nameof(count));
