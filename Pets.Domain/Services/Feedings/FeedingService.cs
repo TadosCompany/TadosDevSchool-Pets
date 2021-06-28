@@ -40,7 +40,7 @@
             Feeding feeding = animal.Feed(food, count);
             food.Decrease(count);
 
-            await _commandBuilder.ExecuteAsync(new UpdateFoodCommandContext(food), cancellationToken);
+            await _commandBuilder.UpdateAsync(food, cancellationToken);
             await _commandBuilder.ExecuteAsync(new CreateFeedingCommandContext(animal, feeding), cancellationToken);
         }
     }

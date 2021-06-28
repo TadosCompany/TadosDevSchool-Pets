@@ -6,10 +6,11 @@
     using System.Threading.Tasks;
     using Dapper;
     using Domain.Commands.Contexts;
+    using Domain.Entities;
     using global::Commands.Abstractions;
     using global::Database.Abstractions;
 
-    public class CreateFoodCommand : IAsyncCommand<CreateFoodCommandContext>
+    public class CreateFoodCommand : IAsyncCommand<CreateObjectWithIdCommandContext<Food>>
     {
         private readonly IDbTransactionProvider _dbTransactionProvider;
 
@@ -22,13 +23,15 @@
 
 
         public async Task ExecuteAsync(
-            CreateFoodCommandContext commandContext,
+            CreateObjectWithIdCommandContext<Food> commandContext,
             CancellationToken cancellationToken = default)
         {
             DbTransaction transaction = await _dbTransactionProvider.GetCurrentTransactionAsync(cancellationToken);
             DbConnection connection = transaction.Connection;
 
-            commandContext.Food.Id = await connection.ExecuteScalarAsync<long>(@"INSERT INTO Food
+            Food food = commandContext.ObjectWithId;
+            
+            food.Id = await connection.ExecuteScalarAsync<long>(@"INSERT INTO Food
                 (
                     Name,
                     AnimalType,
@@ -41,9 +44,9 @@
                     @Count
                 ); SELECT last_insert_rowid();", new
             {
-                Name = commandContext.Food.Name,
-                AnimalType = commandContext.Food.AnimalType,
-                Count = commandContext.Food.Count,
+                Name = food.Name,
+                AnimalType = food.AnimalType,
+                Count = food.Count,
             }, transaction);
         }
     }

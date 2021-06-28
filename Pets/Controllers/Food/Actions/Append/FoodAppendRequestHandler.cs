@@ -32,7 +32,7 @@
 
             food.Increase(request.Count);
 
-            await _asyncCommandBuilder.ExecuteAsync(new UpdateFoodCommandContext(food));
+            await _asyncCommandBuilder.UpdateAsync(food);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿namespace Domain.Abstractions
 {
-    public interface IEntity
+    public interface IEntity : IHasId
     {
-        long Id { get; }
     }
 }

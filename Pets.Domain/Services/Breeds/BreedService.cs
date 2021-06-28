@@ -30,7 +30,7 @@
 
             Breed breed = new Breed(animalType, name);
 
-            await _commandBuilder.ExecuteAsync(new CreateBreedCommandContext(breed), cancellationToken);
+            await _commandBuilder.CreateAsync(breed, cancellationToken);
             
             return breed;
         }
