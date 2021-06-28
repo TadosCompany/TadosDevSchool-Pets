@@ -8,7 +8,7 @@
 
 
     public class UpdateObjectWithIdCommandContext<TObjectWithId> : ICommandContext
-        where TObjectWithId : class, IHasId, new()
+        where TObjectWithId : IHasId
     {
         public UpdateObjectWithIdCommandContext(TObjectWithId objectWithId)
         {
@@ -24,7 +24,7 @@
         public static Task UpdateAsync<TObjectWithId>(
             this IAsyncCommandBuilder commandBuilder,
             TObjectWithId objectWithId,
-            CancellationToken cancellationToken = default) where TObjectWithId : class, IHasId, new()
+            CancellationToken cancellationToken = default) where TObjectWithId : IHasId
         {
             return commandBuilder.ExecuteAsync(
                 new UpdateObjectWithIdCommandContext<TObjectWithId>(objectWithId),

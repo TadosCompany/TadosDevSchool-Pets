@@ -8,7 +8,7 @@
 
 
     public class CreateObjectWithIdCommandContext<TObjectWithId> : ICommandContext 
-        where TObjectWithId : class, IHasId, new()
+        where TObjectWithId : IHasId
     {
         public CreateObjectWithIdCommandContext(TObjectWithId entity)
         {
@@ -24,7 +24,7 @@
         public static Task CreateAsync<TObjectWithId>(
             this IAsyncCommandBuilder commandBuilder,
             TObjectWithId objectWithId,
-            CancellationToken cancellationToken = default) where TObjectWithId : class, IHasId, new()
+            CancellationToken cancellationToken = default) where TObjectWithId : IHasId
         {
             return commandBuilder.ExecuteAsync(
                 new CreateObjectWithIdCommandContext<TObjectWithId>(objectWithId), 
