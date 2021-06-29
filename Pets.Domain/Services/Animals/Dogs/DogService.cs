@@ -27,7 +27,7 @@
 
             Dog dog = new Dog(name, breed, tailLength);
 
-            await _asyncCommandBuilder.ExecuteAsync(new CreateDogCommandContext(dog), cancellationToken);
+            await _asyncCommandBuilder.CreateAsync(dog, cancellationToken);
             
             return dog;
         }

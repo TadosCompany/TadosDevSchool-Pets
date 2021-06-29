@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Linq.AsyncQueryable.Abstractions\Linq.AsyncQueryable.Abstractions.csproj" />
+      <ProjectReference Include="..\Linq.Providers.Abstractions\Linq.Providers.Abstractions.csproj" />
+      <ProjectReference Include="..\Pets.Domain\Pets.Domain.csproj" />
+      <ProjectReference Include="..\Repositories.Abstractions\Repositories.Abstractions.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -6,7 +6,6 @@ namespace Pets
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Persistence;
     using Swagger;
 
     public class Startup
@@ -56,21 +55,17 @@ namespace Pets
 
 
 
-        public void ConfigureDevelopment(IApplicationBuilder applicationBuilder, Database database)
+        public void ConfigureDevelopment(IApplicationBuilder applicationBuilder)
         {
             applicationBuilder
                 .UseDeveloperExceptionPage()
                 .UseSwagger();
 
-
-            Configure(applicationBuilder, database);
+            Configure(applicationBuilder);
         }
 
-        public void Configure(IApplicationBuilder applicationBuilder, Database database)
+        public void Configure(IApplicationBuilder applicationBuilder)
         {
-            database.InitAsync().Wait();
-
-
             applicationBuilder
                 .UseStaticFiles()
                 .UseRouting()

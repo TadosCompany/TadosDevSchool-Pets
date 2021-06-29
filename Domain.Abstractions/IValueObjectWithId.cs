@@ -1,7 +1,6 @@
 ﻿namespace Domain.Abstractions
 {
-    public interface IValueObjectWithId : IValueObject
+    public interface IValueObjectWithId : IValueObject, IHasId
     {
-        long Id { get; }
     }
 }

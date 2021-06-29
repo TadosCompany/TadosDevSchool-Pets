@@ -25,7 +25,7 @@
             
             Cat cat = new Cat(name, breed, weight);
 
-            await _asyncCommandBuilder.ExecuteAsync(new CreateCatCommandContext(cat), cancellationToken);
+            await _asyncCommandBuilder.CreateAsync(cat, cancellationToken);
 
             return cat;
         }

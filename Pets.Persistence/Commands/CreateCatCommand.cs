@@ -6,11 +6,12 @@
     using System.Threading.Tasks;
     using Dapper;
     using Domain.Commands.Contexts;
+    using Domain.Entities;
     using global::Commands.Abstractions;
     using global::Database.Abstractions;
 
 
-    public class CreateCatCommand : IAsyncCommand<CreateCatCommandContext>
+    public class CreateCatCommand : IAsyncCommand<CreateObjectWithIdCommandContext<Cat>>
     {
         private readonly IDbTransactionProvider _dbTransactionProvider;
 
@@ -23,13 +24,15 @@
 
 
         public async Task ExecuteAsync(
-            CreateCatCommandContext commandContext,
+            CreateObjectWithIdCommandContext<Cat> commandContext,
             CancellationToken cancellationToken = default)
         {
             DbTransaction transaction = await _dbTransactionProvider.GetCurrentTransactionAsync(cancellationToken);
             DbConnection connection = transaction.Connection;
 
-            commandContext.Cat.Id = await connection.ExecuteScalarAsync<long>(@"
+            Cat cat = commandContext.ObjectWithId;
+            
+            cat.Id = await connection.ExecuteScalarAsync<long>(@"
                 INSERT INTO Animal
                 (
                     Type,
@@ -43,9 +46,9 @@
                     @BreedId
                 ); SELECT last_insert_rowid()", new
             {
-                Type = commandContext.Cat.Type,
-                Name = commandContext.Cat.Name,
-                BreedId = commandContext.Cat.Breed.Id,
+                Type = cat.Type,
+                Name = cat.Name,
+                BreedId = cat.Breed.Id,
             }, transaction);
 
             await connection.ExecuteAsync(@"
@@ -60,8 +63,8 @@
                     @Weight
                 )", new
             {
-                AnimalId = commandContext.Cat.Id,
-                Weight = commandContext.Cat.Weight,
+                AnimalId = cat.Id,
+                Weight = cat.Weight,
             }, transaction);
         }
     }

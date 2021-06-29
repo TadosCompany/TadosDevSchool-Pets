@@ -24,7 +24,10 @@
     <ProjectReference Include="..\Database.Sqlite\Database.Sqlite.csproj" />
     <ProjectReference Include="..\Database.Transactions.Scoped\Database.Transactions.Scoped.csproj" />
     <ProjectReference Include="..\Json.Converters.Hierarchy\Json.Converters.Hierarchy.csproj" />
+    <ProjectReference Include="..\NHibernate.Infrastructure\NHibernate.Infrastructure.csproj" />
     <ProjectReference Include="..\Pets.Domain\Pets.Domain.csproj" />
+    <ProjectReference Include="..\Pets.Persistence.NHibernate\Pets.Persistence.NHibernate.csproj" />
+    <ProjectReference Include="..\Pets.Persistence.ORM\Pets.Persistence.ORM.csproj" />
     <ProjectReference Include="..\Pets.Persistence\Pets.Persistence.csproj" />
   </ItemGroup>
 

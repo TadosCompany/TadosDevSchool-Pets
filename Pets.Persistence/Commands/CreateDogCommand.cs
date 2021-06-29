@@ -6,11 +6,12 @@
     using System.Threading.Tasks;
     using Dapper;
     using Domain.Commands.Contexts;
+    using Domain.Entities;
     using global::Commands.Abstractions;
     using global::Database.Abstractions;
 
 
-    public class CreateDogCommand : IAsyncCommand<CreateDogCommandContext>
+    public class CreateDogCommand : IAsyncCommand<CreateObjectWithIdCommandContext<Dog>>
     {
         private readonly IDbTransactionProvider _dbTransactionProvider;
 
@@ -23,13 +24,15 @@
 
 
         public async Task ExecuteAsync(
-            CreateDogCommandContext commandContext,
+            CreateObjectWithIdCommandContext<Dog> commandContext,
             CancellationToken cancellationToken = default)
         {
             DbTransaction transaction = await _dbTransactionProvider.GetCurrentTransactionAsync(cancellationToken);
             DbConnection connection = transaction.Connection;
 
-            commandContext.Dog.Id = await connection.ExecuteScalarAsync<long>(@"
+            Dog dog = commandContext.ObjectWithId;
+            
+            dog.Id = await connection.ExecuteScalarAsync<long>(@"
                 INSERT INTO Animal
                 (
                     Type,
@@ -43,9 +46,9 @@
                     @BreedId
                 ); SELECT last_insert_rowid()", new
             {
-                Type = commandContext.Dog.Type,
-                Name = commandContext.Dog.Name,
-                BreedId = commandContext.Dog.Breed.Id,
+                Type = dog.Type,
+                Name = dog.Name,
+                BreedId = dog.Breed.Id,
             }, transaction);
 
             await connection.ExecuteAsync(@"
@@ -60,8 +63,8 @@
                     @TailLength
                 )", new
             {
-                AnimalId = commandContext.Dog.Id,
-                TailLength = commandContext.Dog.TailLength,
+                AnimalId = dog.Id,
+                TailLength = dog.TailLength,
             }, transaction);
         }
     }

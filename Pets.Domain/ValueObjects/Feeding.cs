@@ -10,10 +10,10 @@
         public Feeding()
         {
         }
-        
+
         protected internal Feeding(DateTime dateTimeUtc, Food food, int count)
         {
-            if (count < 0) 
+            if (count < 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
 
             DateTimeUtc = dateTimeUtc;
@@ -28,13 +28,12 @@
         }
 
 
+        public virtual long Id { get; set; }
 
-        public long Id { get; set; }
+        public virtual DateTime DateTimeUtc { get; protected set; }
 
-        public DateTime DateTimeUtc { get; init; }
+        public virtual Food Food { get; protected set; }
 
-        public Food Food { get; init; }
-
-        public int Count { get; init; }
+        public virtual int Count { get; protected set; }
     }
 }

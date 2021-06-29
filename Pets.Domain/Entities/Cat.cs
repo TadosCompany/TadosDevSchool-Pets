@@ -36,6 +36,6 @@
 
 
 
-        public decimal Weight { get; init; }
+        public virtual decimal Weight { get; protected set; }
     }
 }

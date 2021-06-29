@@ -7,12 +7,12 @@
     using Enums;
     using ValueObjects;
 
-    public abstract class Animal : IEntity
+    public class Animal : IEntity
     {
-        private readonly ISet<Feeding> _feedings = new HashSet<Feeding>();
+        private readonly ICollection<Feeding> _feedings = new HashSet<Feeding>();
 
         [Obsolete("Only for reflection", true)]
-        protected Animal()
+        public Animal()
         {
         }
 
@@ -48,19 +48,21 @@
 
 
 
-        public long Id { get; set; }
+        public virtual long Id { get; set; }
 
-        public AnimalType Type { get; init; }
+        public virtual AnimalType Type { get; protected set; }
 
-        public string Name { get; init; }
+        public virtual string Name { get; protected set; }
 
-        public Breed Breed { get; init; }
+        public virtual Breed Breed { get; protected set; }
 
-        public IEnumerable<Feeding> Feedings => _feedings.AsEnumerable();
+        public virtual IEnumerable<Feeding> Feedings => _feedings;
+
+        public virtual IEnumerable<Feeding> OrderedFeedings => _feedings.AsQueryable().OrderByDescending(x => x.DateTimeUtc);
 
 
 
-        protected internal Feeding Feed(Food food, int count)
+        protected internal virtual Feeding Feed(Food food, int count)
         {
             if (food == null) 
                 throw new ArgumentNullException(nameof(food));

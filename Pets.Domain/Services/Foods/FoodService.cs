@@ -30,7 +30,7 @@
 
             Food food = new Food(animalType, name);
 
-            await _commandBuilder.ExecuteAsync(new CreateFoodCommandContext(food), cancellationToken);
+            await _commandBuilder.CreateAsync(food, cancellationToken);
             
             return food;
         }

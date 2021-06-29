@@ -17,6 +17,9 @@
 
 
             CreateMap<Animal, AnimalDto>()
+                .ForMember(
+                    x => x.Feedings, 
+                    x => x.MapFrom(y => y.OrderedFeedings))
                 .Include<Cat, CatDto>()
                 .Include<Dog, DogDto>();
 

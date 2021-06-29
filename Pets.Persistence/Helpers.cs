@@ -8,8 +8,14 @@
     {
         public static DateTime ParseDateTime(string dateTimeUtc)
         {
+            DateTime dateTime =
+                DateTime.ParseExact(dateTimeUtc, Constants.DateTimeFormats, CultureInfo.InvariantCulture);
+
+            if (dateTime.Kind == DateTimeKind.Local)
+                dateTime = dateTime.ToUniversalTime();
+            
             return DateTime.SpecifyKind(
-                DateTime.ParseExact(dateTimeUtc, Constants.DateTimeFormat, CultureInfo.InvariantCulture),
+                dateTime,
                 DateTimeKind.Utc);
         }
 
