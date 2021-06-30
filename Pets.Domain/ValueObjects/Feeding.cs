@@ -1,9 +1,12 @@
 ﻿namespace Pets.Domain.ValueObjects
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using global::Domain.Abstractions;
     using Entities;
 
+    [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+    [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
     public class Feeding : IValueObjectWithId
     {
         [Obsolete("Only for reflection", true)]
@@ -21,14 +24,9 @@
             Count = count;
         }
 
-        public Feeding(long id, DateTime dateTimeUtc, Food food, int count)
-            : this(dateTimeUtc, food, count)
-        {
-            Id = id;
-        }
 
 
-        public virtual long Id { get; set; }
+        public virtual long Id { get; protected set; }
 
         public virtual DateTime DateTimeUtc { get; protected set; }
 

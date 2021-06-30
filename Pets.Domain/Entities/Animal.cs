@@ -2,14 +2,19 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using global::Domain.Abstractions;
     using Enums;
     using ValueObjects;
 
+    [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+    [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
     public class Animal : IEntity
     {
         private readonly ICollection<Feeding> _feedings = new HashSet<Feeding>();
+
+
 
         [Obsolete("Only for reflection", true)]
         public Animal()
@@ -32,23 +37,9 @@
             Breed = breed;
         }
 
-        protected Animal(long id, AnimalType type, string name, Breed breed, IEnumerable<Feeding> feedings)
-            : this(type, name, breed)
-        {
-            if (feedings == null) 
-                throw new ArgumentNullException(nameof(feedings));
-        
-            Id = id;
-        
-            foreach (var feeding in feedings)
-            {
-                _feedings.Add(feeding);
-            }
-        }
 
 
-
-        public virtual long Id { get; set; }
+        public virtual long Id { get; protected set; }
 
         public virtual AnimalType Type { get; protected set; }
 
@@ -62,7 +53,7 @@
 
 
 
-        protected internal virtual Feeding Feed(Food food, int count)
+        protected internal virtual void Feed(Food food, int count)
         {
             if (food == null) 
                 throw new ArgumentNullException(nameof(food));
@@ -73,11 +64,9 @@
             if (food.AnimalType != Type)
                 throw new ArgumentException($"Food animal type expected to be {Type}", nameof(food));
 
-            Feeding feeding = new Feeding(DateTime.UtcNow, food, count);
+            var feeding = new Feeding(DateTime.UtcNow, food, count);
             
             _feedings.Add(feeding);
-
-            return feeding;
         }
     }
 }

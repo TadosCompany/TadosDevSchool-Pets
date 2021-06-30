@@ -33,7 +33,7 @@
                 .For<Food>()
                 .WithAsync(new FindById(request.FoodId));
 
-            await _feedingService.FeedAsync(animal, food, request.Count);
+            _feedingService.Feed(animal, food, request.Count);
         }
     }
 }

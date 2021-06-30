@@ -13,10 +13,12 @@
         private readonly IAsyncQueryBuilder _queryBuilder;
 
 
+
         protected AnimalServiceBase(IAsyncQueryBuilder queryBuilder)
         {
             _queryBuilder = queryBuilder ?? throw new ArgumentNullException(nameof(queryBuilder));
         }
+
 
 
         protected async Task CheckIsAnimalWithNameExistAsync(

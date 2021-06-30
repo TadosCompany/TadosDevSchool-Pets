@@ -6,7 +6,6 @@
     using Enums;
     using global::Domain.Abstractions;
 
-
     public interface IFoodService : IDomainService
     {
         Task<Food> CreateFoodAsync(AnimalType animalType, string name, CancellationToken cancellationToken = default);
