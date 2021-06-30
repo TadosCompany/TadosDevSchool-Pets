@@ -18,9 +18,6 @@
         {
             if (tailLength < 0)
                 throw new ArgumentOutOfRangeException(nameof(tailLength));
-
-            if (breed.AnimalType != AnimalType.Dog)
-                throw new ArgumentException("Invalid breed animal type", nameof(breed));
             
             TailLength = tailLength;
         }

@@ -16,7 +16,7 @@
 
         protected internal Feeding(DateTime dateTimeUtc, Food food, int count)
         {
-            if (count < 0)
+            if (count <= 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
 
             DateTimeUtc = dateTimeUtc;
