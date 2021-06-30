@@ -6,7 +6,6 @@
     using Enums;
     using global::Domain.Abstractions;
 
-
     public interface IBreedService : IDomainService
     {
         Task<Breed> CreateBreedAsync(AnimalType animalType, string name, CancellationToken cancellationToken = default);

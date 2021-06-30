@@ -17,6 +17,7 @@
         private readonly IAsyncCommandBuilder _commandBuilder;
 
 
+
         public BreedService(IAsyncQueryBuilder queryBuilder, IAsyncCommandBuilder commandBuilder)
         {
             _queryBuilder = queryBuilder ?? throw new ArgumentNullException(nameof(queryBuilder));
@@ -24,16 +25,18 @@
         }
 
 
+
         public async Task<Breed> CreateBreedAsync(AnimalType animalType, string name, CancellationToken cancellationToken = default)
         {
             await CheckIsBreedWithNameExistAsync(animalType, name, cancellationToken);
 
-            Breed breed = new Breed(animalType, name);
+            var breed = new Breed(animalType, name);
 
             await _commandBuilder.CreateAsync(breed, cancellationToken);
             
             return breed;
         }
+
 
 
         private async Task CheckIsBreedWithNameExistAsync(AnimalType animalType, string name, CancellationToken cancellationToken = default)

@@ -27,13 +27,13 @@
 
         public async Task<AnimalGetListResponse> ExecuteAsync(AnimalGetListRequest request)
         {
-            List<Animal> breeds = await _asyncQueryBuilder
+            List<Animal> animals = await _asyncQueryBuilder
                 .For<List<Animal>>()
                 .WithAsync(new FindBySearchAndAnimalType(request.Search, request.AnimalType));
 
             return new AnimalGetListResponse
             {
-                Animals = _mapper.Map<IEnumerable<AnimalListItemDto>>(breeds)
+                Animals = _mapper.Map<IEnumerable<AnimalListItemDto>>(animals)
             };
         }
     }

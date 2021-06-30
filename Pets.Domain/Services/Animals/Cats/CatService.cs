@@ -13,17 +13,20 @@
     {
         private readonly IAsyncCommandBuilder _asyncCommandBuilder;
 
+
+
         public CatService(IAsyncQueryBuilder asyncQueryBuilder, IAsyncCommandBuilder asyncCommandBuilder) : base(asyncQueryBuilder)
         {
             _asyncCommandBuilder = asyncCommandBuilder ?? throw new ArgumentNullException(nameof(asyncCommandBuilder));
         }
 
 
+
         public async Task<Cat> CreateCatAsync(string name, Breed breed, decimal weight, CancellationToken cancellationToken = default)
         {
             await CheckIsAnimalWithNameExistAsync(AnimalType.Cat, name, cancellationToken);
             
-            Cat cat = new Cat(name, breed, weight);
+            var cat = new Cat(name, breed, weight);
 
             await _asyncCommandBuilder.CreateAsync(cat, cancellationToken);
 

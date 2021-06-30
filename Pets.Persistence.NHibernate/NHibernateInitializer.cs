@@ -22,7 +22,7 @@
         }
 
 
-        private bool ShouldExpose => true;
+        private static bool ShouldExpose => true;
 
 
         private IPersistenceConfigurer GetDatabaseConfiguration() =>

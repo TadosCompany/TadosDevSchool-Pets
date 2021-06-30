@@ -1,11 +1,11 @@
 ﻿namespace Pets.Domain.Entities
 {
     using System;
-    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using Enums;
-    using ValueObjects;
 
-
+    [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+    [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
     public class Dog : Animal
     {
         [Obsolete("Only for reflection", true)]
@@ -18,21 +18,10 @@
         {
             if (tailLength < 0)
                 throw new ArgumentOutOfRangeException(nameof(tailLength));
-
-            if (breed.AnimalType != AnimalType.Dog)
-                throw new ArgumentException("Invalid breed animal type", nameof(breed));
             
             TailLength = tailLength;
         }
 
-        public Dog(long id, string name, Breed breed, decimal tailLength, IEnumerable<Feeding> feedings)
-            : base(id, AnimalType.Dog, name, breed, feedings)
-        {
-            if (tailLength < 0)
-                throw new ArgumentOutOfRangeException(nameof(tailLength));
-        
-            TailLength = tailLength;
-        }
 
 
         public virtual decimal TailLength { get; protected set; }

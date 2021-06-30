@@ -1,10 +1,12 @@
 ﻿namespace Pets.Domain.Entities
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using global::Domain.Abstractions;
     using Enums;
 
-
+    [SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression")]
+    [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
     public class Food : IEntity
     {
         [Obsolete("Only for reflection", true)]
@@ -22,19 +24,9 @@
             Count = 0;
         }
 
-        public Food(long id, AnimalType animalType, string name, int count)
-            : this(animalType, name)
-        {
-            if (count < 0)
-                throw new ArgumentOutOfRangeException(nameof(count));
-
-            Id = id;
-            Count = count;
-        }
 
 
-
-        public virtual long Id { get; set; }
+        public virtual long Id { get; protected set; }
 
         public virtual AnimalType AnimalType { get; protected set; }
 

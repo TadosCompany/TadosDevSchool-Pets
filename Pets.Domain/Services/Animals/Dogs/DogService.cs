@@ -14,6 +14,7 @@
         private readonly IAsyncCommandBuilder _asyncCommandBuilder;
 
 
+
         public DogService(IAsyncQueryBuilder asyncQueryBuilder, IAsyncCommandBuilder asyncCommandBuilder)
             : base(asyncQueryBuilder)
         {
@@ -21,11 +22,12 @@
         }
 
 
+
         public async Task<Dog> CreateDogAsync(string name, Breed breed, decimal tailLength, CancellationToken cancellationToken = default)
         {
             await CheckIsAnimalWithNameExistAsync(AnimalType.Dog, name, cancellationToken);
 
-            Dog dog = new Dog(name, breed, tailLength);
+            var dog = new Dog(name, breed, tailLength);
 
             await _asyncCommandBuilder.CreateAsync(dog, cancellationToken);
             
