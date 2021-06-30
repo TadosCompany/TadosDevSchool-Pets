@@ -26,9 +26,7 @@
 
         public async Task<AnimalGetResponse> ExecuteAsync(AnimalGetRequest request)
         {
-            Animal animal = await _asyncQueryBuilder
-                .For<Animal>()
-                .WithAsync(new FindById(request.Id));
+            var animal = await _asyncQueryBuilder.FindByIdAsync<Animal>(request.Id);
 
             return new AnimalGetResponse
             {

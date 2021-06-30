@@ -10,6 +10,7 @@
         Task<Cat> CreateCatAsync(
             string name,
             Breed breed,
+            Food favoriteFood,
             decimal weight,
             CancellationToken cancellationToken = default);
     }

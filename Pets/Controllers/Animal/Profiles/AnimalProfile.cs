@@ -10,10 +10,12 @@
         {
             CreateMap<Animal, AnimalListItemDto>()
                 .Include<Cat, CatListItemDto>()
-                .Include<Dog, DogListItemDto>();
+                .Include<Dog, DogListItemDto>()
+                .Include<Hamster, HamsterListItemDto>();
 
             CreateMap<Cat, CatListItemDto>();
             CreateMap<Dog, DogListItemDto>();
+            CreateMap<Hamster, HamsterListItemDto>();
 
 
             CreateMap<Animal, AnimalDto>()
@@ -21,10 +23,12 @@
                     x => x.Feedings, 
                     x => x.MapFrom(y => y.OrderedFeedings))
                 .Include<Cat, CatDto>()
-                .Include<Dog, DogDto>();
+                .Include<Dog, DogDto>()
+                .Include<Hamster, HamsterDto>();
 
             CreateMap<Cat, CatDto>();
             CreateMap<Dog, DogDto>();
+            CreateMap<Hamster, HamsterDto>();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Pets.Domain.Services.Animals.Cats
+﻿namespace Pets.Domain.Services.Animals.Hamsters
 {
     using System;
     using System.Threading;
@@ -9,33 +9,33 @@
     using global::Commands.Abstractions;
     using Queries.Abstractions;
 
-    public class CatService : AnimalServiceBase, ICatService
+    public class HamsterService : AnimalServiceBase, IHamsterService
     {
         private readonly IAsyncCommandBuilder _asyncCommandBuilder;
 
 
 
-        public CatService(IAsyncQueryBuilder asyncQueryBuilder, IAsyncCommandBuilder asyncCommandBuilder) : base(asyncQueryBuilder)
+        public HamsterService(IAsyncQueryBuilder asyncQueryBuilder, IAsyncCommandBuilder asyncCommandBuilder) : base(asyncQueryBuilder)
         {
             _asyncCommandBuilder = asyncCommandBuilder ?? throw new ArgumentNullException(nameof(asyncCommandBuilder));
         }
 
 
 
-        public async Task<Cat> CreateCatAsync(
+        public async Task<Hamster> CreateHamsterAsync(
             string name, 
-            Breed breed,
-            Food favoriteFood,
-            decimal weight, 
+            Breed breed, 
+            Food favoriteFood, 
+            string eyesColor, 
             CancellationToken cancellationToken = default)
         {
             await CheckIsAnimalWithNameExistAsync(AnimalType.Cat, name, cancellationToken);
             
-            var cat = new Cat(name, breed, favoriteFood, weight);
+            var hamster = new Hamster(name, breed, favoriteFood, eyesColor);
 
-            await _asyncCommandBuilder.CreateAsync(cat, cancellationToken);
+            await _asyncCommandBuilder.CreateAsync(hamster, cancellationToken);
 
-            return cat;
+            return hamster;
         }
     }
 }

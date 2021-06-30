@@ -26,9 +26,7 @@
 
         public async Task<BreedGetResponse> ExecuteAsync(BreedGetRequest request)
         {
-            Breed breed = await _asyncQueryBuilder
-                .For<Breed>()
-                .WithAsync(new FindById(request.Id));
+            var breed = await _asyncQueryBuilder.FindByIdAsync<Breed>(request.Id);
 
             return new BreedGetResponse
             {

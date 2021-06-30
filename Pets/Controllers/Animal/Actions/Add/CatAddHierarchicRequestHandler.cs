@@ -2,42 +2,37 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Api.Requests.Hierarchic.Abstractions;
-    using Domain.Criteria;
     using Domain.Entities;
     using Domain.Services.Animals.Cats;
     using Queries.Abstractions;
 
-    public class CatAddHierarchicRequestHandler : AsyncHierarchicRequestHandlerBase<CatAddHierarchicRequest, AnimalAddHierarchicResponse>
+    public class CatAddHierarchicRequestHandler : AnimalAddHierarchicRequestHandler<CatAddHierarchicRequest>
     {
-        private readonly IAsyncQueryBuilder _asyncQueryBuilder;
         private readonly ICatService _catService;
 
 
 
         public CatAddHierarchicRequestHandler(IAsyncQueryBuilder asyncQueryBuilder, ICatService catService)
+            : base(asyncQueryBuilder)
         {
-            _asyncQueryBuilder = asyncQueryBuilder ?? throw new ArgumentNullException(nameof(asyncQueryBuilder));
             _catService = catService ?? throw new ArgumentNullException(nameof(catService));
         }
 
 
 
-        protected override async Task<AnimalAddHierarchicResponse> ExecuteAsync(CatAddHierarchicRequest request)
+        protected override async Task<Animal> CreateAnimalAsync(
+            string name,
+            Breed breed,
+            Food favoriteFood,
+            CatAddHierarchicRequest request)
         {
-            Breed breed = await _asyncQueryBuilder
-                .For<Breed>()
-                .WithAsync(new FindById(request.BreedId));
-
             Cat cat = await _catService.CreateCatAsync(
                 name: request.Name.Trim(),
                 breed: breed,
+                favoriteFood: favoriteFood,
                 weight: request.Weight);
 
-            return new AnimalAddHierarchicResponse
-            {
-                Id = cat.Id
-            };
+            return cat;
         }
     }
 }

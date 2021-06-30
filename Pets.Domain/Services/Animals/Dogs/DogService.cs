@@ -23,11 +23,16 @@
 
 
 
-        public async Task<Dog> CreateDogAsync(string name, Breed breed, decimal tailLength, CancellationToken cancellationToken = default)
+        public async Task<Dog> CreateDogAsync(
+            string name, 
+            Breed breed, 
+            Food favoriteFood,
+            decimal tailLength, 
+            CancellationToken cancellationToken = default)
         {
             await CheckIsAnimalWithNameExistAsync(AnimalType.Dog, name, cancellationToken);
 
-            var dog = new Dog(name, breed, tailLength);
+            var dog = new Dog(name, breed, favoriteFood, tailLength);
 
             await _asyncCommandBuilder.CreateAsync(dog, cancellationToken);
             
