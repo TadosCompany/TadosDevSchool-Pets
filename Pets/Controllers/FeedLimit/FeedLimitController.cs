@@ -1,12 +1,14 @@
 ﻿namespace Pets.Controllers.FeedLimit
 {
     using Actions.Add;
+    using Actions.Get;
     using Actions.GetList;
     using Api.Requests.Abstractions;
     using AspnetCore.ApiControllers.Extensions;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
+    using Actions.Edit;
     using Api.Requests.Hierarchic.Abstractions;
     using global::Persistence.Transactions.Behaviors;
 
@@ -36,6 +38,15 @@
                 .With(request);
 
         [HttpPost]
+        [Route("get")]
+        [ProducesResponseType(typeof(FeedLimitGetResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public Task<IActionResult> Get(FeedLimitGetRequest request)
+            => this.RequestAsync()
+                .For<FeedLimitGetResponse>()
+                .With(request);
+
+        [HttpPost]
         [Route("add")]
         [ProducesResponseType(typeof(FeedLimitAddResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -43,5 +54,12 @@
             => this.RequestAsync()
                 .For<FeedLimitAddResponse>()
                 .With(request);
+
+        [HttpPost]
+        [Route("edit")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public Task<IActionResult> Edit(FeedLimitEditRequest request)
+            => this.RequestAsync(request);
     }
 }

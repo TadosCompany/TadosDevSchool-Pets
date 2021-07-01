@@ -15,11 +15,8 @@
 
         protected internal FeedLimit(Breed breed, int maxPerDay)
         {
-            if (maxPerDay <= 0) 
-                throw new ArgumentOutOfRangeException(nameof(maxPerDay));
-
+            SetMaxPerDay(maxPerDay);
             Breed = breed ?? throw new ArgumentNullException(nameof(breed));
-            MaxPerDay = maxPerDay;
         }
 
 
@@ -29,5 +26,14 @@
         public virtual Breed Breed { get; protected set; }
 
         public virtual int MaxPerDay { get; protected set; }
+
+
+        public virtual void SetMaxPerDay(int maxPerDay)
+        {
+            if (maxPerDay <= 0)
+                throw new ArgumentOutOfRangeException(nameof(maxPerDay));
+
+            MaxPerDay = maxPerDay;
+        }
     }
 }

@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using Domain.Enums;
     using Feeding.Dto;
+    using Food.Dto;
 
     public record AnimalDto
     {
@@ -14,7 +15,7 @@
 
         public string BreedName { get; init; }
 
-        public string FavoriteFoodName { get; init; }
+        public FoodDto FavoriteFood { get; init; }
 
         public IEnumerable<FeedingDto> Feedings { get; init; }
     }

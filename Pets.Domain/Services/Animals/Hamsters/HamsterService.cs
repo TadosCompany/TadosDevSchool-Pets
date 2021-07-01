@@ -29,7 +29,7 @@
             string eyesColor, 
             CancellationToken cancellationToken = default)
         {
-            await CheckIsAnimalWithNameExistAsync(AnimalType.Cat, name, cancellationToken);
+            await CheckIsAnimalWithNameExistAsync(AnimalType.Hamster, name, cancellationToken);
             
             var hamster = new Hamster(name, breed, favoriteFood, eyesColor);
 

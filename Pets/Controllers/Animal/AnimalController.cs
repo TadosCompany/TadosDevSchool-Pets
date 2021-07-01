@@ -5,6 +5,7 @@
     using Actions.Feed;
     using Actions.Get;
     using Actions.GetList;
+    using Actions.SetFavoriteFood;
     using Api.Requests.Abstractions;
     using Api.Requests.Hierarchic.Abstractions;
     using Microsoft.AspNetCore.Http;
@@ -60,6 +61,13 @@
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public Task<IActionResult> Feed(AnimalFeedRequest request)
+            => this.RequestAsync(request);
+
+        [HttpPost]
+        [Route("setFavoriteFood")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public Task<IActionResult> SetFavoriteFood(AnimalSetFavoriteFoodRequest request)
             => this.RequestAsync(request);
     }
 }
