@@ -15,8 +15,8 @@
 
         protected internal FeedLimit(Breed breed, int maxPerDay)
         {
-            SetMaxPerDay(maxPerDay);
             Breed = breed ?? throw new ArgumentNullException(nameof(breed));
+            SetMaxPerDay(maxPerDay);
         }
 
 
