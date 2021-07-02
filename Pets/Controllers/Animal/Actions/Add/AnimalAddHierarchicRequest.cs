@@ -1,4 +1,4 @@
-ï»¿namespace Pets.Controllers.Animal.Actions.Add
+»¿namespace Pets.Controllers.Animal.Actions.Add
 {
     using System.ComponentModel.DataAnnotations;
     using Api.Requests.Hierarchic.Abstractions;
