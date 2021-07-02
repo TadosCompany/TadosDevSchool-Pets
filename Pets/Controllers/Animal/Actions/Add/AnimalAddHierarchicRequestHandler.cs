@@ -38,10 +38,8 @@
                 favoriteFood: favoriteFood,
                 request: request);
 
-            return new AnimalAddHierarchicResponse
-            {
-                Id = animal.Id
-            };
+            return new AnimalAddHierarchicResponse(
+                Id: animal.Id);
         }
 
 

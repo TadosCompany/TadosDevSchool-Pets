@@ -31,10 +31,8 @@
                 .For<List<Breed>>()
                 .WithAsync(new FindBySearchAndAnimalType(request.Search, request.AnimalType));
 
-            return new BreedGetListResponse
-            {
-                Breeds = _mapper.Map<IEnumerable<BreedDto>>(breeds)
-            };
+            return new BreedGetListResponse(
+                Breeds: _mapper.Map<IEnumerable<BreedDto>>(breeds));
         }
     }
 }

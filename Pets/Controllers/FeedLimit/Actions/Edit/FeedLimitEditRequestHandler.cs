@@ -20,9 +20,7 @@
         
         public async Task ExecuteAsync(FeedLimitEditRequest request)
         {
-            FeedLimit feedLimit = await _queryBuilder
-                .For<FeedLimit>()
-                .WithAsync(new FindById(request.Id));
+            var feedLimit = await _queryBuilder.FindByIdAsync<FeedLimit>(request.Id);
 
             feedLimit.SetMaxPerDay(request.MaxPerDay);
         }

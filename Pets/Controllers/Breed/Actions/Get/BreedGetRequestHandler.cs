@@ -28,10 +28,8 @@
         {
             var breed = await _asyncQueryBuilder.FindByIdAsync<Breed>(request.Id);
 
-            return new BreedGetResponse
-            {
-                Breed = _mapper.Map<BreedDto>(breed)
-            };
+            return new BreedGetResponse(
+                Breed: _mapper.Map<BreedDto>(breed));
         }
     }
 }

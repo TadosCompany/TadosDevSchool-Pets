@@ -31,10 +31,8 @@
                 .For<List<FeedLimit>>()
                 .WithAsync(new FindBySearchAndAnimalType(request.Search, request.AnimalType));
 
-            return new FeedLimitGetListResponse
-            {
-                FeedLimits = _mapper.Map<IEnumerable<FeedLimitDto>>(feedLimits)
-            };
+            return new FeedLimitGetListResponse(
+                FeedLimits: _mapper.Map<IEnumerable<FeedLimitDto>>(feedLimits));
         }
     }
 }

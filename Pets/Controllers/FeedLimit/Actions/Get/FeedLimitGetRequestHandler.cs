@@ -15,6 +15,7 @@
         private readonly IMapper _mapper;
 
 
+
         public FeedLimitGetRequestHandler(IAsyncQueryBuilder queryBuilder, IMapper mapper)
         {
             _queryBuilder = queryBuilder ?? throw new ArgumentNullException(nameof(queryBuilder));
@@ -22,13 +23,13 @@
         }
 
 
+
         public async Task<FeedLimitGetResponse> ExecuteAsync(FeedLimitGetRequest request)
         {
-            FeedLimit feedLimit = await _queryBuilder
-                .For<FeedLimit>()
-                .WithAsync(new FindById(request.Id));
+            var feedLimit = await _queryBuilder.FindByIdAsync<FeedLimit>(request.Id);
 
-            return new FeedLimitGetResponse(_mapper.Map<FeedLimitDto>(feedLimit));
+            return new FeedLimitGetResponse(
+                FeedLimit: _mapper.Map<FeedLimitDto>(feedLimit));
         }
     }
 }

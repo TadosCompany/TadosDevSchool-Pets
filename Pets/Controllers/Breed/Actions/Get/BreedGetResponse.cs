@@ -3,8 +3,9 @@
     using Api.Requests.Abstractions;
     using Dto;
 
-    public record BreedGetResponse : IResponse
-    {
-        public BreedDto Breed { get; init; }
-    }
+    public record BreedGetResponse(
+
+        BreedDto Breed
+
+    ) : IResponse;
 }

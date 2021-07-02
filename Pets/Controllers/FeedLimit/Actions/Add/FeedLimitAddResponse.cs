@@ -2,8 +2,9 @@
 {
     using Api.Requests.Abstractions;
 
-    public record FeedLimitAddResponse : IResponse
-    {
-        public long Id { get; init; }
-    }
+    public record FeedLimitAddResponse(
+
+        long Id
+
+    ) : IResponse;
 }

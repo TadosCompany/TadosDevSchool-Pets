@@ -29,10 +29,8 @@
 
             FeedLimit feedLimit = await _feedLimitService.CreateFeedLimitAsync(breed, request.MaxPerDay);
 
-            return new FeedLimitAddResponse
-            {
-                Id = feedLimit.Id,
-            };
+            return new FeedLimitAddResponse(
+                Id: feedLimit.Id);
         }
     }
 }

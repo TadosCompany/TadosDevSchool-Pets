@@ -2,8 +2,9 @@
 {
     using Api.Requests.Abstractions;
 
-    public record FoodAddResponse : IResponse
-    {
-        public long Id { get; init; }
-    }
+    public record FoodAddResponse(
+
+        long Id
+
+    ) : IResponse;
 }

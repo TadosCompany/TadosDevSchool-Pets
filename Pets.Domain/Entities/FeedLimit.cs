@@ -28,6 +28,7 @@
         public virtual int MaxPerDay { get; protected set; }
 
 
+
         public virtual void SetMaxPerDay(int maxPerDay)
         {
             if (maxPerDay <= 0)

@@ -28,10 +28,8 @@
         {
             var food = await _asyncQueryBuilder.FindByIdAsync<Food>(request.Id);
 
-            return new FoodGetResponse
-            {
-                Food = _mapper.Map<FoodDto>(food)
-            };
+            return new FoodGetResponse(
+                Food: _mapper.Map<FoodDto>(food));
         }
     }
 }

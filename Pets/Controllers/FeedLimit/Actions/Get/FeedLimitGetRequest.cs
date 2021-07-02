@@ -2,5 +2,8 @@
 {
     using Api.Requests.Abstractions;
 
-    public record FeedLimitGetRequest(long Id) : IRequest<FeedLimitGetResponse>;
+    public record FeedLimitGetRequest : IRequest<FeedLimitGetResponse>
+    {
+        public long Id { get; init; }
+    }
 }

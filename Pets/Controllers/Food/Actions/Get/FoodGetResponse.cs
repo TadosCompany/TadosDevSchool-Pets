@@ -3,8 +3,9 @@
     using Api.Requests.Abstractions;
     using Dto;
 
-    public record FoodGetResponse : IResponse
-    {
-        public FoodDto Food { get; init; }
-    }
+    public record FoodGetResponse(
+
+        FoodDto Food
+
+    ) : IResponse;
 }

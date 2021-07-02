@@ -4,8 +4,9 @@
     using Api.Requests.Abstractions;
     using Dto;
 
-    public record AnimalGetListResponse : IResponse
-    {
-        public IEnumerable<AnimalListItemDto> Animals { get; init; }
-    }
+    public record AnimalGetListResponse(
+
+        IEnumerable<AnimalListItemDto> Animals
+
+    ) : IResponse;
 }

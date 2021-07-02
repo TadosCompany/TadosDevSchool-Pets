@@ -28,10 +28,8 @@
         {
             var animal = await _asyncQueryBuilder.FindByIdAsync<Animal>(request.Id);
 
-            return new AnimalGetResponse
-            {
-                Animal = _mapper.Map<AnimalDto>(animal)
-            };
+            return new AnimalGetResponse(
+                Animal: _mapper.Map<AnimalDto>(animal));
         }
     }
 }

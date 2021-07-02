@@ -4,8 +4,9 @@
     using Api.Requests.Abstractions;
     using Dto;
 
-    public record FeedLimitGetListResponse : IResponse
-    {
-        public IEnumerable<FeedLimitDto> FeedLimits { get; init; }
-    }
+    public record FeedLimitGetListResponse(
+
+        IEnumerable<FeedLimitDto> FeedLimits
+
+    ) : IResponse;
 }

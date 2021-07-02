@@ -31,10 +31,8 @@
                 .For<List<Food>>()
                 .WithAsync(new FindBySearchAndAnimalType(request.Search, request.AnimalType));
 
-            return new FoodGetListResponse
-            {
-                Foods = _mapper.Map<IEnumerable<FoodDto>>(foods)
-            };
+            return new FoodGetListResponse(
+                Foods: _mapper.Map<IEnumerable<FoodDto>>(foods));
         }
     }
 }
