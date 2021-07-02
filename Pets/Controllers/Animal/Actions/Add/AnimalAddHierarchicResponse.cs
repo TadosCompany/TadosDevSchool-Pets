@@ -2,8 +2,9 @@
 {
     using Api.Requests.Hierarchic.Abstractions;
 
-    public record AnimalAddHierarchicResponse : IHierarchicResponse
-    {
-        public long Id { get; init; }
-    }
+    public record AnimalAddHierarchicResponse(
+
+        long Id
+
+    ) : IHierarchicResponse;
 }

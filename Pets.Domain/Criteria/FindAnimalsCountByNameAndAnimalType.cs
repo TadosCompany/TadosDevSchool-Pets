@@ -3,17 +3,5 @@
     using Enums;
     using Queries.Abstractions;
 
-    public class FindAnimalsCountByNameAndAnimalType : ICriterion
-    {
-        public FindAnimalsCountByNameAndAnimalType(string name, AnimalType animalType)
-        {
-            Name = name;
-            AnimalType = animalType;
-        }
-
-
-        public string Name { get; }
-
-        public AnimalType AnimalType { get; }
-    }
+    public record FindAnimalsCountByNameAndAnimalType(string Name, AnimalType AnimalType) : ICriterion;
 }

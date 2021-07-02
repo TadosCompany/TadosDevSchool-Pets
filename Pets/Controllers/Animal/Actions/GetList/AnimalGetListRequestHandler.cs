@@ -31,10 +31,8 @@
                 .For<List<Animal>>()
                 .WithAsync(new FindBySearchAndAnimalType(request.Search, request.AnimalType));
 
-            return new AnimalGetListResponse
-            {
-                Animals = _mapper.Map<IEnumerable<AnimalListItemDto>>(animals)
-            };
+            return new AnimalGetListResponse(
+                Animals: _mapper.Map<IEnumerable<AnimalListItemDto>>(animals));
         }
     }
 }

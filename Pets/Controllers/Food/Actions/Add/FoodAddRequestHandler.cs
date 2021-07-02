@@ -26,10 +26,8 @@
                 name: request.Name.Trim()
             );
 
-            return new FoodAddResponse
-            {
-                Id = food.Id,
-            };
+            return new FoodAddResponse(
+                Id: food.Id);
         }
     }
 }

@@ -13,6 +13,8 @@
         
         public long BreedId { get; init; }
 
+        public long? FavoriteFoodId { get; init; }
+
         [Required]
         public string Name { get; init; }
     }

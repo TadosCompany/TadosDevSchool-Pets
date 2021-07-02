@@ -10,6 +10,7 @@
         Task<Dog> CreateDogAsync(
             string name,
             Breed breed,
+            Food favoriteFood,
             decimal tailLength,
             CancellationToken cancellationToken = default);
     }

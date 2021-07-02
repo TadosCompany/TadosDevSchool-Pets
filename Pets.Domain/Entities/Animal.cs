@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using Common.DataAnnotations;
     using global::Domain.Abstractions;
     using Enums;
     using ValueObjects;
@@ -21,7 +22,7 @@
         {
         }
 
-        protected Animal(AnimalType type, string name, Breed breed)
+        protected Animal(AnimalType type, string name, Breed breed, Food favoriteFood)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(name));
@@ -35,6 +36,7 @@
             Type = type;
             Name = name;
             Breed = breed;
+            SetFavoriteFood(favoriteFood);
         }
 
 
@@ -47,11 +49,22 @@
 
         public virtual Breed Breed { get; protected set; }
 
+        [Nullable]
+        public virtual Food FavoriteFood { get; protected set; }
+
         public virtual IEnumerable<Feeding> Feedings => _feedings;
 
         public virtual IEnumerable<Feeding> OrderedFeedings => _feedings.AsQueryable().OrderByDescending(x => x.DateTimeUtc);
 
 
+
+        public virtual void SetFavoriteFood(Food food)
+        {
+            if (food is not null && food.AnimalType != Type)
+                throw new ArgumentException($"Food animal type expected to be {Type}", nameof(food));
+
+            FavoriteFood = food;
+        }
 
         protected internal virtual void Feed(Food food, int count)
         {

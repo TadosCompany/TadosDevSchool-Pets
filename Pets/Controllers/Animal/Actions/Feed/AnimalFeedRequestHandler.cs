@@ -25,15 +25,11 @@
 
         public async Task ExecuteAsync(AnimalFeedRequest request)
         {
-            Animal animal = await _asyncQueryBuilder
-                .For<Animal>()
-                .WithAsync(new FindById(request.AnimalId));
+            var animal = await _asyncQueryBuilder.FindByIdAsync<Animal>(request.AnimalId);
 
-            Food food = await _asyncQueryBuilder
-                .For<Food>()
-                .WithAsync(new FindById(request.FoodId));
+            var food = await _asyncQueryBuilder.FindByIdAsync<Food>(request.FoodId);
 
-            _feedingService.Feed(animal, food, request.Count);
+            await _feedingService.FeedAsync(animal, food, request.Count);
         }
     }
 }

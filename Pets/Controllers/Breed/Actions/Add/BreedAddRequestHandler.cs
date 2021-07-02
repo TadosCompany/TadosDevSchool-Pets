@@ -26,10 +26,8 @@
                 name: request.Name.Trim()
             );
 
-            return new BreedAddResponse
-            {
-                Id = breed.Id,
-            };
+            return new BreedAddResponse(
+                Id: breed.Id);
         }
     }
 }

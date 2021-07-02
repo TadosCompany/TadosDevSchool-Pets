@@ -3,6 +3,7 @@
     public enum AnimalType
     {
         Cat = 1,
-        Dog = 2
+        Dog = 2,
+        Hamster = 3
     }
 }

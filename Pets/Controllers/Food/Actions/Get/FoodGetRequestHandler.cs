@@ -26,14 +26,10 @@
 
         public async Task<FoodGetResponse> ExecuteAsync(FoodGetRequest request)
         {
-            Food food = await _asyncQueryBuilder
-                .For<Food>()
-                .WithAsync(new FindById(request.Id));
+            var food = await _asyncQueryBuilder.FindByIdAsync<Food>(request.Id);
 
-            return new FoodGetResponse
-            {
-                Food = _mapper.Map<FoodDto>(food)
-            };
+            return new FoodGetResponse(
+                Food: _mapper.Map<FoodDto>(food));
         }
     }
 }

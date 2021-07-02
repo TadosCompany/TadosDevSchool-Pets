@@ -13,8 +13,8 @@
         {
         }
 
-        protected internal Dog(string name, Breed breed, decimal tailLength)
-            : base(AnimalType.Dog, name, breed)
+        protected internal Dog(string name, Breed breed, Food favoriteFood, decimal tailLength)
+            : base(AnimalType.Dog, name, breed, favoriteFood)
         {
             if (tailLength < 0)
                 throw new ArgumentOutOfRangeException(nameof(tailLength));
