@@ -27,7 +27,7 @@
             HamsterAddHierarchicRequest request)
         {
             Hamster hamster = await _hamsterService.CreateHamsterAsync(
-                name: request.Name.Trim(),
+                name: name,
                 breed: breed,
                 favoriteFood: favoriteFood,
                 eyesColor: request.EyesColor);

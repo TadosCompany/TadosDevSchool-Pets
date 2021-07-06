@@ -45,7 +45,7 @@
                 .WithAsync(new FindByBreed(animal.Breed), cancellationToken);
 
             if (animal.Feedings.Count() >= feedLimit?.MaxPerDay)
-                throw new FeedLimitExceeded();
+                throw new FeedLimitExceededException();
 
             animal.Feed(food, count);
             food.Decrease(count);

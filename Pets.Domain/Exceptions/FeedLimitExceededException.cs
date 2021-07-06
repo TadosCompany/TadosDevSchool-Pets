@@ -3,13 +3,13 @@
     using System;
     using global::Domain.Abstractions;
 
-    public class FeedLimitExceeded : Exception, IDomainException
+    public class FeedLimitExceededException : Exception, IDomainException
     {
         private const string DefaultMessage = "Feed limit exceeded";
 
 
 
-        public FeedLimitExceeded()
+        public FeedLimitExceededException()
             : base(DefaultMessage)
         {
         }

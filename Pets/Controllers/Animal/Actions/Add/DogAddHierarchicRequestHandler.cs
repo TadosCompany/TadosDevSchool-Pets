@@ -27,7 +27,7 @@
             DogAddHierarchicRequest request)
         {
             Dog dog = await _dogService.CreateDogAsync(
-                name: request.Name.Trim(),
+                name: name,
                 breed: breed,
                 favoriteFood: favoriteFood,
                 tailLength: request.TailLength);

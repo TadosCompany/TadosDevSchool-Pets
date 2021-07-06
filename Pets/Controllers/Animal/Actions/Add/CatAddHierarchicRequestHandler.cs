@@ -27,7 +27,7 @@
             CatAddHierarchicRequest request)
         {
             Cat cat = await _catService.CreateCatAsync(
-                name: request.Name.Trim(),
+                name: name,
                 breed: breed,
                 favoriteFood: favoriteFood,
                 weight: request.Weight);
